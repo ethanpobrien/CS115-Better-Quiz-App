@@ -1,4 +1,4 @@
-#!/Users/ethanobrien/Documents/schoolwork/w18/CS115/project/TESTENV/bin/python
+#!/Users/ethanobrien/Documents/schoolwork/w18/CS115/project/CS115-Better-Quiz-App/TESTENV/bin/python
 
 import sys
 import getopt
