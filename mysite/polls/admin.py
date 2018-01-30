@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Choice, Question
+from .models import Choice, Question, Quiz
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -17,4 +17,15 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ['pub_date']
     search_fields = ['question_text']
 
+class QuestionInline(admin.TabularInline):
+  model = Question
+
+
+class QuizAdmin(admin.ModelAdmin):
+  fieldsets = [
+      (None, {'fields': ['title_text']}),
+      ('Quiz description', {'fields': ['quiz_text']}),
+  ]
+  inlines = [QuestionInline]
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(Quiz, QuizAdmin)
