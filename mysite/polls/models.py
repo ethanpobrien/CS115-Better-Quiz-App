@@ -6,6 +6,7 @@ from django.utils import timezone
 class Quiz(models.Model):
     title_text = models.CharField(max_length=200, default='quiz title')
     quiz_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
     def __str__(self):
         return self.title_text
 
