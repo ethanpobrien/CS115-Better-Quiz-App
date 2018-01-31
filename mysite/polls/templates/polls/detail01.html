@@ -4,11 +4,7 @@
 
 {% for question in quiz.question_set.all %}
   <p> {{ question.question_text }} </p>
-  <form>
   {% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice.{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{choice.choice_text}}</label></br>
+    <p> {{ choice.choice_text}} </p>
   {% endfor %}
-  </form>
 {% endfor %}
-
