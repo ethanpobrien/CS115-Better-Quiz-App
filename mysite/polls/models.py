@@ -1,6 +1,8 @@
 import datetime
 
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
 from django.utils import timezone
 
 class Quiz(models.Model):
@@ -32,3 +34,8 @@ class Choice(models.Model):
     correct = models.BooleanField(default=False)
     def __str__(self):
         return self.choice_text
+
+
+class MyUser(AbstractUser):
+  bio = models.TextField(max_length=400, blank=True)
+  pass

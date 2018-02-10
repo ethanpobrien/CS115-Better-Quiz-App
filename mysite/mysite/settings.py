@@ -119,3 +119,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#defining the AUTH_USER_MODEL property
+# https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html#abstractuser
+# https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#substituting-a-custom-user-model
+# AUTH_USER_MODEL = 'myapp.MyUser'
+# polls.User for now, will change to polls.Student and polls.Teacher I assume
+
+AUTH_USER_MODEL = 'polls.MyUser'
+

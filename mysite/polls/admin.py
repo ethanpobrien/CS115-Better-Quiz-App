@@ -1,5 +1,8 @@
 from django.contrib import admin
 
+from django.contrib.auth.admin import UserAdmin
+from .models import MyUser
+
 from .models import Choice, Question, Quiz
 
 class ChoiceInline(admin.TabularInline):
@@ -27,5 +30,13 @@ class QuizAdmin(admin.ModelAdmin):
       ('Quiz description', {'fields': ['quiz_text']}),
   ]
   inlines = [QuestionInline]
+
+
+class MyUserAdmin(UserAdmin):
+  fieldsets = [
+      ('Biographical Information',  {'fields': ['bio']}),
+  ]
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Quiz, QuizAdmin)
+admin.site.register(MyUser, MyUserAdmin)
