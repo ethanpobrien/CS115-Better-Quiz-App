@@ -3,9 +3,19 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth import authenticate, login
 
 from .models import Choice, Question, Quiz
 
+'''
+def my_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+            login(request, user)
+            # Redirect to success page
+'''
 
 
 class IndexView(generic.ListView):
