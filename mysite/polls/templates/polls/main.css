@@ -1,0 +1,53 @@
+//simple start to bootstrap css
+//Donovan
+
+.jumbotron {
+  background-image:url('http://goo.gl/04j7Nn');
+  height: 200px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color:  #3939ac;
+}
+
+.jumbotron .container {
+  position: relative;
+  top:0px;
+}
+
+.jumbotron h1 {
+  color: #ffffff;
+  font-size: 48px;
+  font-family: 'Shift', sans-serif;
+  font-weight: bold;
+}
+
+.jumbotron p {
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.question p {
+  margin: 15px 30px 0 30px;
+  padding: 0 10px 15px 10px;
+  border-bottom: 3px solid #ddd;
+  color:  #3939ac;
+  font-family: 'Shift', sans-serif;
+  font-weight: bold;
+  text-align: left;
+  display: block;
+  text-align: left;
+  font-size: 25px;
+}
+
+.choice p {
+  margin: 15px 30px 0 30px;
+  padding: 0 10px 15px 10px;
+  border-bottom: 3px solid #ddd;
+  color:  #3939ac;
+  font-family: 'Shift', sans-serif;
+  font-weight: bold;
+  text-align: left;
+  display: block;
+  text-align: left;
+  font-size: 25px;
+}
