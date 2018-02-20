@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login
 
+
 # Create your views here.
 def signup_view(request):
     if request.method == 'POST':
@@ -14,6 +15,7 @@ def signup_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
