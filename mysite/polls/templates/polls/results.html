@@ -14,7 +14,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Home</a></li>
-          <li><a href="#">Log Out</a></li>
+          <!-- <li action="/accounts/login/" method="post"><a href="#">Log Out</a></li> -->
+          <form class="logout-link" action="/accounts/logout/" method="post">
+              {% csrf_token %}
+              <button type="submit">Log Out</button>
+              <!-- <li><a href="#">Log Out</a></li> -->
+          </form>
+
         </ul>
       </div><!-- /.container-fluid -->
     </nav>
@@ -39,4 +45,3 @@
         </div>
         <a href="#" class="btn btn-default", id="retry-button">Try again?</a>
     </div>
-
