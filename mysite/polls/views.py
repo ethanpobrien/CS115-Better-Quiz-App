@@ -48,6 +48,14 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
+class QuestionView(generic.DetailView):
+    model = Question
+    template_name = 'polls/questiondetail.html'
+
+class QuizView(generic.DetailView):
+    model = Quiz
+    template_name = 'polls/quizdetail.html'
+
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)

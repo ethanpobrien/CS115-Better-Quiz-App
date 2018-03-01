@@ -6,7 +6,7 @@
   <ul>
   {% for quiz in latest_quiz_list %}
     <li>
-      <a href="{% url 'polls:detail' quiz.id %}">{{ quiz.title_text}}
+      <a href="{% url 'polls:quizdetail' quiz.id %}">{{ quiz.title_text}}
       </a>
     </li>
   {% endfor %}

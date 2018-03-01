@@ -1,0 +1,7 @@
+<h1> {{ quiz.title_text }} </h1>
+{% for question in quiz.question_set.all %}
+  <li>
+    <a href="{% url 'polls:questiondetail' question.id %}">{{ question.question_text }}
+    </a>
+  </li>
+{% endfor %}
