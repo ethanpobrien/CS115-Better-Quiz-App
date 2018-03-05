@@ -42,9 +42,9 @@ class ResultsView(generic.DetailView):
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
-        #pull up question model. Update correct answers
+        # pull up question model. Update correct answers
         question.set_correct_answer()
-        #retrieve selected choice's model
+        # retrieve selected choice's model
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         return render(request, 'polls/detail.html', {
@@ -52,12 +52,12 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        #update vote count
+        # update vote count
         selected_choice.votes += 1
-        #if correct, set question to correct
+        # if correct, set question to correct
         if selected_choice.id == question.correct_answer:
             question.correct = True
-        #update server with response
+        # update server with response
         selected_choice.save()
         question.save()
 
