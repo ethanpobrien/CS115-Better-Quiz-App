@@ -13,3 +13,4 @@ class LoginRequiredMiddleware(MiddlewareMixin):
             redirect_ignore = ["admin", "account"]
             if not any (category in path for category in redirect_ignore):
                 return HttpResponseRedirect("/accounts/login/")
+

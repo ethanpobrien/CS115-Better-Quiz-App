@@ -17,31 +17,21 @@ def my_view(request):
             # Redirect to success page
 '''
 
+
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'latest_quiz_list'
 
     def get_queryset(self):
-        return Quiz.objects.filter(
-            pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:5]
-
-
-'''
-  def get_queryset(self):
-    return Question.objects.filter(
-      pub_date__lte=timezone.now()
-    ).order_by('-pub_date')[:5]
-'''
+        return Quiz.objects.all()
 
 
 class DetailView(generic.DetailView):
-    #  HttpResponseRedirect(reverse('../accounts/login'))
     model = Quiz
     template_name = 'polls/detail.html'
 
     def get_queryset(self):
-        return Quiz.objects.filter(pub_date__lte=timezone.now())
+        return Quiz.objects.all()
 
 
 class ResultsView(generic.DetailView):
@@ -52,6 +42,9 @@ class ResultsView(generic.DetailView):
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
+        #pull up question model. Update correct answers
+        question.set_correct_answer()
+        #retrieve selected choice's model
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
         return render(request, 'polls/detail.html', {
@@ -59,7 +52,13 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
+        #update vote count
         selected_choice.votes += 1
+        #if correct, set question to correct
+        if selected_choice.id == question.correct_answer:
+            question.correct = True
+        #update server with response
         selected_choice.save()
+        question.save()
 
-    return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+    return HttpResponseRedirect(reverse('polls:results', args=(question.quiz.id,)))
