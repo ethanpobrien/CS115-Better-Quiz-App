@@ -98,6 +98,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#User model to use
+#AUTH_USER_MODEL = 'polls.StudentUser'
+#AUTH_USER_MODEL = 'polls.MyUser'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 

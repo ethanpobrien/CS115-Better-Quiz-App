@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
 from .models import Choice, Question, Quiz
 
@@ -34,3 +35,4 @@ class QuizAdmin(admin.ModelAdmin):
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Quiz, QuizAdmin)
+#admin.site.register(MyUser, UserAdmin) 
