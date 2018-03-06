@@ -31,18 +31,25 @@
         <div class="quiz-parent">
             {% endcomment %}
 <h1> {{ quiz.title_text }}</h1>
+{% for choice in answerset.answers.all %}
+
+    <h4>{{ choice.choice_text }}</h4>
+
+{% endfor %} 
 {% for question in quiz.question_set.all  %}
 
     <h2>{{ question.question_text }} </h2>
-    <h2>{{ answerset.answers }} </h2>
+    {% comment %}
+    <h2>{{ answerset.answers.all }} </h2>
     <h2>{{ answerset.student }} </h2>
     <h2>{{ answerset.quiz }} </h2>
 
-    {% for choice in answerset.answers_set.all %}
+    {% for choice in answerset.answers.all %}
 
         <h4>{{ choice.choice_text }}</h4>
 
     {% endfor %} 
+    {% endcomment %}
 
 {% endfor %}
                 {% comment %}
