@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 
 
@@ -37,14 +38,20 @@ class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+
+    #If the user answers correctly, hence false default
     correct = models.BooleanField(default=False)
+
+    #always!! contains ID of choice with .correct = True
     correct_answer = models.IntegerField(default=-1)
+
     selected_answer = models.IntegerField(default=-2)
 
     def __str__(self):
         return self.question_text
 
     #find correct answer and save ID for later comparison
+    #will take most recently selected choice as correct
     def set_correct_answer(self):
         for choice in self.choice_set.all():
             if choice.correct:
@@ -52,13 +59,27 @@ class Question(models.Model):
         self.save()
 
 
-
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    #answer_set = models.ManyToManyField(AnswerSet)
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
     correct = models.BooleanField(default=False)
 
     def __str__(self):
         return self.choice_text
+
+
+#one to one with User, should hold unique student models.
+#Don't directly act on User, just on Student?
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
+class AnswerSet(models.Model):
+    #question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, default=-1)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
+    #title = quiz.title_text
+    answers = models.ManyToManyField(Choice)
 

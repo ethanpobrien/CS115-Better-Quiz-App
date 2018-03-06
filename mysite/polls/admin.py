@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import Choice, Question, Quiz
+from .models import Choice, Question, Quiz, AnswerSet
 
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
-    extra = 2
+    extra = 0
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -29,6 +29,9 @@ class QuizAdmin(admin.ModelAdmin):
     ]
     inlines = [QuestionInline]
 
+class AnswerSetAdmin(admin.ModelAdmin):
+    fieldsets = []
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Quiz, QuizAdmin)
+admin.site.register(AnswerSet, AnswerSetAdmin)
