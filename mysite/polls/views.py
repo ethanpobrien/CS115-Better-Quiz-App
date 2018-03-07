@@ -111,22 +111,16 @@ def vote(request, question_id):
     else:
         # update vote count
         selected_choice.votes += 1
-
-        # if correct, set question to correct
-        if selected_choice.id == question.correct_answer:
-            question.correct = True
-        else:
-            question.correct = False
-        ## update server with response
         selected_choice.save()
-        question.save()
 
         #not necessary to have correct check, as we alse want to 
         #   record incorrect answers 
         #
-        #if selected_choice.correct == True:
         #see if any choice in answer_set.answers.all belongs to 
         #   the current question.choice_set.all 
+        for set_choice in answer_set.answers.all():
+            if set_choice.question == question:
+                answer_set.answers.remove(set_choice)
 
         answer_set.answers.add(selected_choice)
         answer_set.save()
