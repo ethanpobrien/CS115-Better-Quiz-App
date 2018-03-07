@@ -38,18 +38,24 @@
 </head>
 
 <body>
+    {% comment %}
 {% for question in quiz.question_set.all %}
 <p> {{ question.question_text }} </p>
-<form action="{% url 'polls:vote' question.id %}" method="post">
-    {% csrf_token %}
-    {% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice.{{ forloop.counter }}" value="{{ choice.id }}"/>
-    <label for="choice{{ forloop.counter }}">{{choice.choice_text}}</label></br>
-    {% endfor %}
-    <input type="submit" value="Submit" />
-</form>
-{% endfor %}
+    {% endcomment %}
 
+<form action="{% url 'polls:submit_quiz' quiz.id %}" method="post">
+{% csrf_token %}
+{% for question in quiz.question_set.all %}
+    <p> {{ question.question_text }} </p>
+    {% for choice in question.choice_set.all %}
+    <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}"/>
+    <label for="choice{{ choice.id }}">{{choice.choice_text}}</label></br>
+    {% endfor %}
+{% endfor %}
+<input type="submit" value="Submit" />
+</form>
+
+{% comment %}
 <div class="nav">
       <div class="container">
         <ul class ="pull-left">
@@ -85,6 +91,7 @@
 
 
 </div>
+{% endcomment %}
 
 </body>
 </html>
