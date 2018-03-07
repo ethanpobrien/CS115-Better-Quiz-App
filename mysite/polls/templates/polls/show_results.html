@@ -36,8 +36,11 @@
     <h2>{{ question.question_text }} </h2>
     {% for choice in answerset.answers.all %}
         {% if choice in question.choice_set.all  %}
-            <h4>Your answer {{ choice.choice_text }}
-            is {{ choice.correct }}</h4>
+            {% if choice.correct %}
+                <h4>You answered {{question.question_text}} correctly with "{{ choice.choice_text }}"</h4>
+            {% elif not choice.correct %}
+                <h4>You answered {{question.question_text}} incorrectly with "{{ choice.choice_text }}"</h4>
+            {% endif %} 
         {% endif %} 
     {% endfor %} 
 {% endfor %}
