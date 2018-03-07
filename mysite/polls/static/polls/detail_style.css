@@ -1,0 +1,76 @@
+
+/*characteristics of navbar*/
+.nav a {
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 20px;
+    text-transform: uppercase;
+  }
+
+/*makes navbar links on the same line*/
+.nav li {
+    display: inline;
+  }
+
+/*characteristics of quiz title*/
+.jumbotron {
+    background-image:url('http://goo.gl/04j7Nn');
+    height: 200px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color:  #aa7400;
+  }
+
+.jumbotron .container {
+    position: relative;
+    top:0px;
+  }
+
+.jumbotron h1 {
+    color: #430077;
+    font-size: 48px;
+    font-family: 'Shift', sans-serif;
+    font-weight: bold;
+  }
+
+/*characteristics of questions*/
+.container p {
+    font-size: 20px;
+    color: #ffffff;
+  }
+
+.question p {
+    margin: 15px 30px 0 30px;
+    padding: 0 10px 15px 10px;
+    border-bottom: 3px solid #ddd;
+    color:  #aa7400;
+    font-family: 'Shift', sans-serif;
+    font-weight: bold;
+    text-align: left;
+    display: block;
+    text-align: center;
+    font-size: 25px;
+  }
+
+/*characteristics of choices*/
+.choice p {
+    margin: 15px 30px 0 30px;
+    padding: 0 10px 15px 10px;
+    border-bottom: 3px solid #ddd;
+    color:  #3939ac;
+    font-family: 'Shift', sans-serif;
+    font-weight: bold;
+    text-align: left;
+    display: block;
+    text-align: center;
+    font-size: 25px;
+  }
+
+
+
+
+
+
+
+

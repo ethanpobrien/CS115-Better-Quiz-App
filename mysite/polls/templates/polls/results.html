@@ -1,47 +1,57 @@
 {% load static %}
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
 <link rel = "stylesheet" type="text/css" href="{% static 'polls/result_style.css' %}" />
 
 <header>
     <nav class="navbar-custom navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">A Better Quiz App</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Home</a></li>
-          <!-- <li action="/accounts/login/" method="post"><a href="#">Log Out</a></li> -->
-          <form class="logout-link" action="/accounts/logout/" method="post">
-              {% csrf_token %}
-              <button type="submit">Log Out</button>
-              <!-- <li><a href="#">Log Out</a></li> -->
-          </form>
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">A Better Quiz App</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Home</a></li>
+                <!-- <li action="/accounts/login/" method="post"><a href="#">Log Out</a></li> -->
+                <form id="logout-btn" class="navbar-form form-inline pull-right" action="/accounts/logout/" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class ="btn">Log Out</button>
+                    <!-- <li><a href="#">Log Out</a></li> -->
+                </form>
 
-        </ul>
-      </div><!-- /.container-fluid -->
+            </ul>
+        </div><!-- /.container-fluid -->
     </nav>
 </header>
 
 <div id="site-wrapper"></div>
-    <div class = "aspect-wrapper">
-        <div class="quiz-parent">
-          <div class="quiz-title">{{ quiz.title_text }}</div>
-            {% for question in quiz.question_set.all  %}
-              <div class="question-parent">
-                <h3 class="question-text">{{ question.question_text }} </h3>
-                  {% for choice in question.choice_set.all %}
-                    <div class="choice-parent">
-                      <div class="choice-text">{{ choice.choice_text }}
-                      <div class="choice-votes">{{ choice.votes }} student{{choice.votes|pluralize }} voted for this</div>
-                      </div>
-                    </div>
-                  {% endfor %}
-              </div>
+<div class = "aspect-wrapper">
+    <div class="quiz-parent">
+        <div class="quiz-title">{{ quiz.title_text }}</div>
+        {% for question in quiz.question_set.all  %}
+        <div class="question-parent">
+            <h3 class="question-text">{{ question.question_text }} </h3>
+            {% for choice in question.choice_set.all %}
+            <div class="choice-parent">
+                <div class="choice-text">{{ choice.choice_text }}
+                    <div class="choice-votes">{{ choice.votes }} student{{choice.votes|pluralize }} voted for this</div>
+                </div>
+            </div>
             {% endfor %}
         </div>
-        <a href="#" class="btn btn-default", id="retry-button">Try again?</a>
+        {% endfor %}
     </div>
+    <a href="#" class="btn btn-default", id="retry-button">Try again?</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
