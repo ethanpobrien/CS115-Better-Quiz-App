@@ -1,4 +1,3 @@
-{% comment %}
 {% load static %}
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -27,10 +26,46 @@
 </header>
 
 <div id="site-wrapper"></div>
-    <div class = "aspect-wrapper">
-        <div class="quiz-parent">
-            {% endcomment %}
+<div class = "aspect-wrapper">
+    <div class="quiz-parent">
+        <div class="quiz-title">{{ quiz.title_text }}</div>
+        {% for question in quiz.question_set.all  %}
+        <div class="question-parent">
+            <h3 class="question-text">{{ question.question_text }} </h3>
 
+            {% for choice in answerset.answers.all %}
+                {% if choice in question.choice_set.all %}
+                <div class="choice-parent">
+                    {% if choice.correct %}
+                    <h4>You answered {{question.question_text}} correctly with "{{ choice.choice_text }}"</h4>
+                {% elif not choice.correct %}
+                    <h4>You answered {{question.question_text}} incorrectly with "{{ choice.choice_text }}"</h4>
+                {% endif %} 
+                {% comment %}
+                    <div class="choice-text">{{ choice.choice_text }}
+                        <div class="choice-votes">{{ choice.votes }} student{{choice.votes|pl    uralize }} voted for this</div>
+                    </div>
+                {% endcomment %}
+                </div>
+              {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'polls:detail' quiz.id %}" class="btn btn-default", id="retry-button">Try again?</a>
+    </div>
+                {% comment %}
+                <!-- this is the start of the code i've added
+      
+                  {% if question.correct == True %}
+                     <div class="question-text"> CORRECT {{ question.question_text }} </div>
+                  {% endif %}
+                  {% if question.correct == False %}
+                     <div class="question-text"> FALSE {{ question.question_text }} </div>
+                  {% endif %}
+
+                      this is the end of the code to show if question was correct-->
+works as intended, core code below illustrates logic used to display selected answers
 <h1> {{ quiz.title_text }}</h1>
 {% for question in quiz.question_set.all  %}
     <h2>{{ question.question_text }} </h2>
@@ -44,35 +79,4 @@
         {% endif %} 
     {% endfor %} 
 {% endfor %}
-                {% comment %}
-                <!-- this is the start of the code i've added
-      
-                  {% if question.correct == True %}
-                     <div class="question-text"> CORRECT {{ question.question_text }} </div>
-                  {% endif %}
-                  {% if question.correct == False %}
-                     <div class="question-text"> FALSE {{ question.question_text }} </div>
-                  {% endif %}
-
-                      this is the end of the code to show if question was correct-->
                 {% endcomment %}
-
-
-                {% comment %}
-                <!-- this is the original code for right here
-                {% for choice in question.choice_set.all %}
-                <div class="choice-parent">
-                    <div class="choice-text">{{ choice.choice_text }}
-                        <div class="choice-votes">{{ choice.votes }}    
-                                student{{choice.votes|pluralize}} voted for this</div>
-                    </div>
-                </div>
-                {% endfor %}
-                -->
-                {% endcomment %}
-
-{% comment %}
-        </div>
-        <a href="{% url 'polls:detail' quiz.id %}" class="btn btn-default", id="retry-button">Try again?</a>
-    </div>
-{% endcomment %}
