@@ -79,9 +79,7 @@ class Student(models.Model):
 class AnswerSet(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=-1)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
-
     answers = models.ManyToManyField(Choice)
-
     score = models.IntegerField(default=-1)
 
     def update_score(self):
