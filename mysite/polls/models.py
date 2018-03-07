@@ -82,3 +82,11 @@ class AnswerSet(models.Model):
 
     answers = models.ManyToManyField(Choice)
 
+    score = models.IntegerField(default=-1)
+
+    def update_score(self):
+        self.score = 0
+        for choice in self.answers.all():
+            if choice.correct == True:
+                self.score += 1
+

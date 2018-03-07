@@ -28,7 +28,7 @@
 <div id="site-wrapper"></div>
 <div class = "aspect-wrapper">
     <div class="quiz-parent">
-        <div class="quiz-title">{{ quiz.title_text }}</div>
+        <div class="quiz-title">Score for {{ quiz.title_text }}: {{answerset.score}}</div>
         {% for question in quiz.question_set.all  %}
         <div class="question-parent">
             <h3 class="question-text">{{ question.question_text }} </h3>
@@ -65,7 +65,8 @@
                   {% endif %}
 
                       this is the end of the code to show if question was correct-->
-works as intended, core code below illustrates logic used to display selected answers
+
+code below illustrates logic used to display selected answers etc
 <h1> {{ quiz.title_text }}</h1>
 {% for question in quiz.question_set.all  %}
     <h2>{{ question.question_text }} </h2>

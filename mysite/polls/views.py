@@ -44,36 +44,21 @@ def show_results(request, answer_set_id):
     current_user = request.user
 
     #get student object from user object
-    possibly_student = Student.objects.get_or_create(user=current_user)
-    current_student = possibly_student[0]
+    possible_student = Student.objects.get_or_create(user=current_user)
+    current_student = possible_student[0]
     current_student.save()
 
     answerset = get_object_or_404(AnswerSet, pk=answer_set_id)
-
     #get quiz
     quiz = get_object_or_404(Quiz, pk=answerset.quiz.id)
 
-
-    #get quiz answer set
-    #possible_answer_set = AnswerSet.objects.get_or_create(
-    #answer_set = AnswerSet.objects.get_or_create(
-        #student = current_student, 
-        #quiz=quiz,
-    #)
-    #answer_set = possible_answer_set[0]
-    #answer_set.save()
     answerset.save()
     
-
-
     return render(request, 'polls/show_results.html', {
         'quiz': quiz,
         'answerset': answerset,
         'answer_set_id': answerset.id,
         })
-
-
-
 
 
 #changed to add some things to the answerset selections, seems to be working by looking
@@ -84,16 +69,16 @@ def vote(request, question_id):
     #trying to pull the user id to get the AnswerSet for them and the quiz
     current_user = request.user
     #get student object from user object
-    possibly_student = Student.objects.get_or_create(user=current_user)
-    current_student = possibly_student[0]
+    possible_student = Student.objects.get_or_create(user=current_user)
+    current_student = possible_student[0]
     current_student.save()
 
     #use student and quiz objects to get or create an answer set
-    answerset_tuple = AnswerSet.objects.get_or_create(
+    possible_answer_set = AnswerSet.objects.get_or_create(
         student = current_student, 
         quiz=question.quiz,
     )
-    answer_set = answerset_tuple[0]
+    answer_set = possible_answer_set[0]
     answer_set.save()
     
 
@@ -109,22 +94,16 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        # update vote count
         selected_choice.votes += 1
         selected_choice.save()
 
-        #not necessary to have correct check, as we alse want to 
-        #   record incorrect answers 
-        #
-        #see if any choice in answer_set.answers.all belongs to 
-        #   the current question.choice_set.all 
         for set_choice in answer_set.answers.all():
             if set_choice.question == question:
                 answer_set.answers.remove(set_choice)
 
         answer_set.answers.add(selected_choice)
+        answer_set.update_score()
         answer_set.save()
-
 
     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
 
