@@ -169,38 +169,7 @@ def submit_quiz(request, quiz_id):
                         answer = Choice.objects.get(pk=v) 
                         answer_set.answers.add(answer)
 
-
-
                         answer_set.update_score()
                         answer_set.save()
 
-
-
-
-
-
-
     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
-    #try:
-        # retrieve selected choice's model
-        #selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    #except (KeyError, Choice.DoesNotExist):
-        #return render(request, 'polls/detail.html', {
-            #'question': question,
-            #'error_message': "You didn't select a choice.",
-        #})
-    #else:
-        #selected_choice.votes += 1
-        #selected_choice.save()
-
-        #for set_choice in answer_set.answers.all():
-            #if set_choice.question == question:
-                #answer_set.answers.remove(set_choice)
-
-        #answer_set.answers.add(selected_choice)
-        #answer_set.update_score()
-
-
-
-    #answer_set.save()
-
