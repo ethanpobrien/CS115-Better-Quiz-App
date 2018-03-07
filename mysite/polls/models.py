@@ -77,9 +77,8 @@ class Student(models.Model):
 
 
 class AnswerSet(models.Model):
-    #question = models.ForeignKey(Question, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=-1)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
-    #title = quiz.title_text
+
     answers = models.ManyToManyField(Choice)
 

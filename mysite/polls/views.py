@@ -125,6 +125,8 @@ def vote(request, question_id):
         #   record incorrect answers 
         #
         #if selected_choice.correct == True:
+        #see if any choice in answer_set.answers.all belongs to 
+        #   the current question.choice_set.all 
 
         answer_set.answers.add(selected_choice)
         answer_set.save()
