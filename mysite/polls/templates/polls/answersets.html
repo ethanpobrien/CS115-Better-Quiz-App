@@ -1,6 +1,6 @@
 {% if set_list %}
     {% for set in set_list%}
     <a href="{% url 'polls:show_results' set.quiz.id %}">{{set.quiz.title_text}}</a>
-        <h4>score: {{set.score}}</h4>
+    <h4>score: {{set.score}}</h4>
     {% endfor %}
 {% endif %}
