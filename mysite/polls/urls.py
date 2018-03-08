@@ -13,4 +13,7 @@ urlpatterns = [
     path('quiz/<int:pk>/', views.QuizDetailView.as_view(), name='quizdetail'),
     path('<int:quiz_id>/submit_quiz/', views.submit_quiz, name='submit_quiz'),
     path('<int:answer_set_id>/show_results/', views.show_results, name='show_results'),
+
+    #path('answerset/<int:pk>/', views.AnswerSetDetailView.as_view(), name='answer_set_detail'),
+    path('answerset/<int:pk>/', views.AnswerSetView.as_view(), name='answer_set_view'),
 ]

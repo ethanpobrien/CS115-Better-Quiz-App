@@ -46,6 +46,14 @@ class ResultsView(generic.DetailView):
     model = Quiz
     template_name = 'polls/results.html'
 
+#class AnswerSetDetailView(generic.DetailView):
+class AnswerSetView(generic.ListView):
+    #model = AnswerSet
+    context_object_name = 'set_list'
+    template_name = 'polls/answersets.html'
+
+    def get_queryset(self):
+        return AnswerSet.objects.all()
 
 def show_results(request, answer_set_id):
     #get user

@@ -75,6 +75,9 @@ class Choice(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user.username
+
 
 class AnswerSet(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=-1)
