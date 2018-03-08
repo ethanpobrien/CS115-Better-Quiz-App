@@ -67,7 +67,6 @@ body { padding-top: 50px; }
 }
 
 .question-parent{
-    background-color: beige;
     padding: 0px 0px 3% 0px;
     border-radius: 25px 25px 25px 25px;
 
@@ -83,29 +82,22 @@ body { padding-top: 50px; }
     padding-bottom: 1.5%;
 }
 
-.choice-text{
-    border: .005em solid grey;
-
-    color: black;
-    background-color: #EDEDED;
-
+.choice-correct{
     padding: 1.5% 1.5% 1.5% 1.5%;
     width: 97%;
+    background-color: green;
 }
 
-.choice-text:hover{
-    background-color: #D6DEE1;
-    font-weight: bold;
+.choice-incorrect{
+    padding: 1.5% 1.5% 1.5% 1.5%;
+    width: 97%;
+    background-color: red;
+}
+
+.choice-text{
     color: black;
-
-}
-
-.choice-votes{
-    display: none;
-}
-
-.choice-text:hover + .choice-votes{
-    display: block;
+    padding: 1.5% 1.5% 1.5% 1.5%;
+    width: 97%;
 }
 
 .btn .btn-default{
