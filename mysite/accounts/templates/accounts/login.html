@@ -30,14 +30,17 @@
             <form method="post" action="/accounts/login/" autocomplete="off">
                 {% csrf_token %}
                 <div class="login-fields">
+
                     <div class="form-group">
                         <p class="field-label">Username</p>
                         {{ form.username }}
                     </div>
+
                     <div class="form-group" id="password-form" name="password">
                         <p class="field-label">Password</p>
                         {{ form.password}}
                     </div>
+
                 </div>
                 <p><input type="submit" class="btn" id="login-btn" name="" value="Sign in"></p>
             </form>
