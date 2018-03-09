@@ -1,54 +1,51 @@
 {% load static %}
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel = "stylesheet" type="text/css" href="{% static 'polls/result_style.css' %}" />
 
 <header>
     <nav class="navbar-custom navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">A Better Quiz App</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Home</a></li>
-          <!-- <li action="/accounts/login/" method="post"><a href="#">Log Out</a></li> -->
-          <form id="logout-btn" class="navbar-form form-inline pull-right" action="/accounts/logout/" method="post">
-              {% csrf_token %}
-              <button type="submit" class ="btn">Log Out</button>
-              <!-- <li><a href="#">Log Out</a></li> -->
-          </form>
-
-        </ul>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">A Better Quiz App</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Home</a></li>
+                <form id="logout-btn" class="navbar-form form-inline pull-right" action="/accounts/logout/" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class ="btn">Log Out</button>
+                </form>
+            </ul>
+        </div><!-- /.container-fluid -->
     </nav>
 </header>
 
-<div id="site-wrapper"></div>
-<div class = "aspect-wrapper">
-    <div class="quiz-parent">
-        <div class="quiz-title">Score for {{ quiz.title_text }}: {{ answerset.score }}/{{ quiz.question_set.count }}</div>
-        {% for question in quiz.question_set.all  %}
-        <div class="question-parent">
-            <h3 class="question-text">{{ question.question_text }} </h3>
-            
-            {% for choice in question.choice_set.all %}
-                {% if choice.correct %} 
-                    <h4 class="choice-correct"> {{ choice.choice_text }} </h4>
-                {% else %}
-                    {% if choice in answerset.answers.all %}
-                        {% if not choice.correct %} 
-                            <h4 class="choice-incorrect"> {{ choice.choice_text }} </h4>
-                        {% endif %}
-                    {% else %}
-                        <h4 class="choice-text"> {{ choice.choice_text }} </h4>
-                    {% endif %} 
-                {% endif %}
-           {% endfor %}
+<div class="site-wrapper">
+    <div class="aspect-wrapper">
+        <div class="quiz-wrapper">
+            <p class="quiz-title"> Score for {{ quiz.title_text }}: {{ answerset.score }} / {{ quiz.question_set.count }}</p>
+            <p class="quiz-title"> {{ quiz.title_text }}</p>
 
+            {% for question in quiz.question_set.all %}
+              <div class="question-wrapper">
+                <h3 class="question-text">{{ question.question_text }} </h3>
+                <div class="choice-wrapper">
+                    {% for choice in question.choice_set.all %}
+                      {% if choice.correct %}
+                      <h4 class="choice-correct"> {{ choice.choice_text }} </h4>
+                      {% else %}
+                        {% if choice in answerset.answers.all %}
+                          {% if not choice.correct %}
+                          <h4 class="choice-incorrect"> {{ choice.choice_text }} </h4>
+                          {% endif %}
+                        {% else %}
+                        <h4 class="choice-text"> {{ choice.choice_text }} </h4>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            <a href="{% url 'polls:detail' quiz.id %}" class="btn btn-default" , id="retry-button">Try again?</a>
         </div>
-        {% endfor %}
     </div>
-  <a href="{% url 'polls:detail' quiz.id %}" class="btn btn-default", id="retry-button">Try again?</a>
 </div>

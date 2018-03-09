@@ -1,30 +1,107 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 html *{font-family: SansSerif, sans-serif;}
+
 /*Needed for persistent navbar*/
 body { padding-top: 50px; }
 
 /*Used for the background image*/
-#site-wrapper{
+.site-wrapper{
     z-index: 0;
-    position: fixed;
+    display: table;
+    position: absolute;
     width: 100%;
-    height: 120%;
+    height: 100%;
     background-color: #757575;
     background-image: url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
 }
 
 /*Used to set aspect ratio of quiz div*/
 .aspect-wrapper{
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    width:75%;
-    height:120%;
-    margin-left: 12.5%;
+    display: table-cell;
+    vertical-align: middle;
 }
 
+.quiz-wrapper{
+    width: 75%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background: black;
+    border-radius: 25px 25px 25px 25px;
+    z-index: 5;
+}
+
+.quiz-title{
+    text-align: center;
+    background-color: darkblue;
+    color: white;
+    font-size:3em;
+    border-radius: 25px 25px 0px 0px;
+    width: 100%;
+    padding: 5px;
+    margin-top: 2.5%;
+}
+
+.question-wrapper{
+    padding: 0px 0px 3% 0px;
+    border-radius: 25px 25px 25px 25px;
+}
+
+.question-text{
+    padding-left: 3%;
+    padding-top: .5%;
+    color: white;
+}
+
+.choice-wrapper{
+    padding-left: 3%;
+    padding-bottom: 1.5%;
+    color:white;
+}
+
+.choice-correct{
+    padding: 1.5% 1.5% 1.5% 1.5%;
+    width: 97%;
+    color:white;
+    background-color: green;
+}
+
+.choice-incorrect{
+    padding: 1.5% 1.5% 1.5% 1.5%;
+    width: 97%;
+    color:white;
+    background-color: red;
+}
+
+.choice-text{
+    color: white;
+    padding: 1.5% 1.5% 1.5% 1.5%;
+    width: 97%;
+}
+
+.btn .btn-default{
+    z-index: auto;
+}
+
+#retry-button{
+    /*position: relative;*/
+    /*margin-top: 25%;*/
+    text-align: center;
+    background-color: darkblue;
+    border-color: darkblue;
+    color: white;
+    font-size: 3em;
+    /*border-radius: 0px 0px 25px 25px;*/
+    width: 100%;
+    /*height:7%*/
+    /*padding: 5px;*/
+    /*margin-bottom: 2.5%;*/
+}
+
+#retry-button:hover{
+    background-color: #0000CD;
+    font-weight: bold;
+}
 
 .btn{
     background-color: rgba(1,1,1,1);
@@ -34,6 +111,8 @@ body { padding-top: 50px; }
 .btn:hover{
     color: #0fac09;
 }
+
+
 .navbar-custom {
   background-color: rgba(1,1,1,1);
 }
@@ -50,81 +129,6 @@ body { padding-top: 50px; }
 .navbar-custom .navbar-brand:focus,
 .navbar-custom .navbar-brand:hover {
     color: yellow;
-}
-
-
-.quiz-parent{
-    position: relative;
-    background-color: beige;
-    border-radius: 25px 25px 0px 0px;
-    z-index: 5;
-}
-
-.quiz-title{
-    text-align: center;
-    color: white;
-    background-color: darkblue;
-    font-size:3em;
-
-    width: 100%;
-
-    border-radius: 25px 25px 0px 0px;
-    padding: 5px;
-    margin-top: 2.5%;
-}
-
-.question-parent{
-    padding: 0px 0px 3% 0px;
-    border-radius: 25px 25px 25px 25px;
-
-}
-
-.question-text{
-    padding-left: 3%;
-    padding-top: .5%;
-}
-
-.choice-parent{
-    padding-left: 3%;
-    padding-bottom: 1.5%;
-}
-
-.choice-correct{
-    padding: 1.5% 1.5% 1.5% 1.5%;
-    width: 97%;
-    background-color: green;
-}
-
-.choice-incorrect{
-    padding: 1.5% 1.5% 1.5% 1.5%;
-    width: 97%;
-    background-color: red;
-}
-
-.choice-text{
-    color: black;
-    padding: 1.5% 1.5% 1.5% 1.5%;
-    width: 97%;
-}
-
-.btn .btn-default{
-    z-index: auto;
-}
-
-#retry-button{
-    position: relative;
-    text-align: center;
-    background-color: darkblue;
-    border-color: darkblue;
-    color: white;
-    font-size: 3em;
-    border-radius: 0px 0px 25px 25px;
-    width: 100%;
-}
-
-#retry-button:hover{
-    background-color: #0000CD;
-    font-weight: bold;
 }
 
 

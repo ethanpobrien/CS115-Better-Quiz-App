@@ -10,5 +10,4 @@ class NameForm(ModelForm):
         model = Player
         fields = ['name']
         widgets = {'name': forms.TextInput(
-                     attrs={'id': 'player_name', 'required': True, 'placeholder': 'Player name...','value':'player1','title':'write here your name'}
-            )
+                     attrs={'id': 'player_name', 'required': True, 'placeholder': 'Player name...','value':'player1','title':'write here your name'})}
