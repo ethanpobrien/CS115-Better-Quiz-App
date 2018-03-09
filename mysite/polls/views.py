@@ -143,37 +143,18 @@ def submit_quiz(request, quiz_id):
     answer_set = possible_answer_set[0]
     answer_set.save()
 
-    
-    #right now, pushes through to command line where runserver was used
-    #shows correct selections inside the post data...
     if request.method == 'POST':
         post_obj = request.POST
-        #print(list(post_obj.items()))
         post_dict = post_obj.dict()
 
-        #dict_list = post_dict.items()
-        #sliced_dict_list = dict_list[1:]
-
-        #clears any choices
         for set_choice in answer_set.answers.all():
             answer_set.answers.remove(set_choice)
             answer_set.save()
 
-        #this prints key, value pairs from the dict, and it lists question.id, choice.id
-        #and also the CSRF token right at the start... just skip with slicing?
         for k, v in post_dict.items():
-            print(k, v)
-            #print(type(k))
-            #print(int(k, base=10))
-            #if type(k) == int:
             if k != 'csrfmiddlewaretoken':
                 for question in quiz.question_set.all():
-                    print('k = ', k)
-                    #print('k = ', int(k))
-                    print('question.id = ', question.id)
                     if int(k) == question.id:
-                        print('inside if loop lol')
-                        print(k)
                         answer = Choice.objects.get(pk=v) 
                         answer_set.answers.add(answer)
 
