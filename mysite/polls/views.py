@@ -77,54 +77,6 @@ def show_results(request, answer_set_id):
         })
 
 
-#changed to add some things to the answerset selections, seems to be working by looking
-#at the sqlite3 database and tables in it
-def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-
-    #trying to pull the user id to get the AnswerSet for them and the quiz
-    current_user = request.user
-    #get student object from user object
-    possible_student = Student.objects.get_or_create(user=current_user)
-    current_student = possible_student[0]
-    current_student.save()
-
-    #use student and quiz objects to get or create an answer set
-    possible_answer_set = AnswerSet.objects.get_or_create(
-        student = current_student, 
-        quiz=question.quiz,
-    )
-    answer_set = possible_answer_set[0]
-    answer_set.save()
-    
-
-    try:
-        # pull up question model. Update correct answers
-        question.set_correct_answer()
-
-        # retrieve selected choice's model
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        return render(request, 'polls/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-
-        for set_choice in answer_set.answers.all():
-            if set_choice.question == question:
-                answer_set.answers.remove(set_choice)
-
-        answer_set.answers.add(selected_choice)
-        answer_set.update_score()
-        answer_set.save()
-
-    return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
-
-
-
 #def submit_quiz(request, answer_set_id):
 def submit_quiz(request, quiz_id):
     current_user = request.user
@@ -156,9 +108,10 @@ def submit_quiz(request, quiz_id):
                 for question in quiz.question_set.all():
                     if int(k) == question.id:
                         answer = Choice.objects.get(pk=v) 
-                        answer_set.answers.add(answer)
+                        answer.votes += 1
+                        answer.save()
 
+                        answer_set.answers.add(answer)
                         answer_set.update_score()
-                        answer_set.save()
 
     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))

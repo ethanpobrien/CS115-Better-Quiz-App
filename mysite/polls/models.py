@@ -33,6 +33,11 @@ class Quiz(models.Model):
                 self.number_correct += 1
         self.save()
 
+    class Meta:
+        #app_label = 'Better Quizzes'
+        verbose_name = 'Better Quiz'
+        verbose_name_plural = 'Better Quizzes'
+
 
 
 class Question(models.Model):

@@ -4,13 +4,14 @@ from .models import Choice, Question, Quiz, AnswerSet
 
 
 class ChoiceInline(admin.TabularInline):
+    readonly_fields = ('votes',)
     model = Choice
     extra = 0
 
 
 class QuestionAdmin(admin.ModelAdmin):
+    #readonly_fields = ('pub_date',)
     fieldsets = [
-        (None, {'fields': ['question_text']}),
         (None, {'fields': ['question_text']}),
     ]
     
