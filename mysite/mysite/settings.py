@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'l3@100o)c9ufgzl7%a(q%ysjo%@lfc0b82%3572ik+(_v($08&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'mysite.middleware.LoginRequiredMiddleware',
-    'mysite.middleware.PageNotFoundMiddleware'
+    #'mysite.middleware.PageNotFoundMiddleware'
 ]
 
 ROOT_URLCONF = 'mysite.urls'
