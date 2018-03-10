@@ -17,7 +17,8 @@ class Classroom(models.Model):
 
 
 class Quiz(models.Model):
-    title_text = models.CharField(max_length=200, default='quiz title')
+    #title_text = models.CharField(max_length=200, default='quiz title')
+    title_text = models.CharField(max_length=200)
     quiz_text = models.CharField(max_length=200)
     number_correct = models.IntegerField(default=0)
 
@@ -90,4 +91,5 @@ class AnswerSet(models.Model):
         for choice in self.answers.all():
             if choice.correct == True:
                 self.score += 1
+        self.save()
 
