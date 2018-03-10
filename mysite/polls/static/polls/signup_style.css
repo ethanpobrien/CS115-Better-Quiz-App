@@ -22,7 +22,7 @@ body { padding-top: 50px; }
     vertical-align: middle;
 }
 
-.login-wrapper{
+.register-wrapper{
     width: 30em;
     height: 30em;
     margin-left: auto;
@@ -32,7 +32,7 @@ body { padding-top: 50px; }
     z-index: 5;
 }
 
-.login-fields{
+.register-fields{
     text-align: center;
     margin-top: 10%;
 }
@@ -42,26 +42,17 @@ body { padding-top: 50px; }
     margin-left: -60%;
     margin-bottom: 1%;
     margin-top:1%;
+}
 
-
+.re-enter-label{
+    color: white;
+    margin-left: -45%;
+    margin-bottom: 1%;
+    margin-top:1%;
 }
 
 .input-form{
     border: none;
-}
-
-input[type=text],
-input[type=password]{
-
-    border-radius: 50px 50px 50px 50px;
-    border: 2px solid grey;
-    background: transparent;
-    width: 80%;
-    height: 8%
-}
-
-#username-form{
-    placeholder:"Username";
 }
 
 input{
@@ -69,6 +60,14 @@ input{
     padding-left: 5%;
 }
 
+input[type=text],
+input[type=password]{
+    border-radius: 50px 50px 50px 50px;
+    border: 2px solid grey;
+    background: transparent;
+    width: 80%;
+    height: 8%
+}
 
 input:focus,
 input:hover{
@@ -77,13 +76,13 @@ input:hover{
 }
 
 
-#login-header{
+#register-header{
     color: white;
     padding-left: 10%;
 }
 
-#login-btn,
-#login-btn:hover{
+#register-btn,
+#register-btn:hover{
     outline: none;
     position: relative;
     display: block;
