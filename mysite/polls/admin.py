@@ -20,12 +20,13 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class QuestionInline(admin.TabularInline):
     model = Question
+    extra = 0
 
 
 class QuizAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['title_text']}),
-        ('Quiz description', {'fields': ['quiz_text']}),
+        (None,                  {'fields': ['title_text']}),
+        ('Quiz description',    {'fields': ['quiz_text']}),
     ]
     inlines = [QuestionInline]
 
