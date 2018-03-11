@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Choice, Question, Quiz, AnswerSet
+from .models import Choice, Question, Quiz, AnswerSet, ClassQuizResults
+from .models import Course, Student, Teacher
 
 
 class ChoiceInline(admin.TabularInline):
@@ -34,12 +35,25 @@ class QuizAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,                  {'fields': ['title_text']}),
         ('Quiz description',    {'fields': ['quiz_text']}),
+        ('Course',              {'fields': ['course']}),
     ]
     inlines = [QuestionInline]
 
 class AnswerSetAdmin(admin.ModelAdmin):
     fieldsets = []
 
+class CourseAdmin(admin.ModelAdmin):
+    fieldsets = []
+
+class StudentAdmin(admin.ModelAdmin):
+    fieldsets = []
+
+class TeacherAdmin(admin.ModelAdmin):
+    fieldsets = []
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(AnswerSet, AnswerSetAdmin)
+admin.site.register(Course, CourseAdmin)
+admin.site.register(Student, StudentAdmin)
+admin.site.register(Teacher, TeacherAdmin)

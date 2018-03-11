@@ -5,7 +5,7 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
 
-from .models import Choice, Question, Quiz, Student, AnswerSet
+from .models import Choice, Question, Quiz, Student, AnswerSet, ClassQuizResults
 
 '''
 def my_view(request):
@@ -55,6 +55,34 @@ class AnswerSetView(generic.ListView):
     def get_queryset(self):
         return AnswerSet.objects.all()
 
+
+class ClassQuizResultsView(generic.ListView):
+    #model = ClassQuizResults 
+    template_name = 'polls/classresults.html'
+    context_object_name = 'results_list'
+
+    def get_queryset(self):
+        return ClassQuizResults.objects.all()
+
+
+def classquizresults(request, classquizresults_id):
+    results = get_object_or_404(ClassQuizResults, pk=classquizresults_id)
+    #results = ClassQuizResults.objects.get_or_create(pk=classquizresults_id)
+    #get user
+    #current_user = request.user
+
+    #get student object from user object
+    quiz = get_object_or_404(Quiz, pk=results.quiz.id)
+
+    results.set_average()
+    results.save()
+    
+    return render(request, 'polls/classquizresults.html', {
+        'quiz': quiz,
+        'class_results': results,
+        #'classquizresults_id': results.id,
+        })
+
 def show_results(request, answer_set_id):
     #get user
     current_user = request.user
@@ -95,6 +123,12 @@ def submit_quiz(request, quiz_id):
     answer_set = possible_answer_set[0]
     answer_set.save()
 
+    #create or add to class quiz results
+    poss_results = ClassQuizResults.objects.get_or_create(quiz=quiz)
+    class_results = poss_results[0]
+    #current_student is what we want
+    class_results.save()
+
     if request.method == 'POST':
         post_obj = request.POST
         post_dict = post_obj.dict()
@@ -113,5 +147,6 @@ def submit_quiz(request, quiz_id):
 
                         answer_set.answers.add(answer)
                         answer_set.update_score()
+
 
     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))

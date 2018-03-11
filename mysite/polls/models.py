@@ -5,15 +5,39 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-# Create your models here.
 
+#one to one with User, should hold unique student models.
+#Don't directly act on User, just on Student?
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
 
-class Classroom(models.Model):
-    classroom_name = models.CharField(max_length=200, default='Classroom Unit')
-    classroom_text = models.CharField(max_length=200)
+    #courses = models.ForeignKey(Classroom, on_delete=models.CASCADE) 
+    #added student as many to many in Classroom instead
 
     def __str__(self):
-        return self.classroom_name
+        return self.user.username
+
+#class Classroom(models.Model):
+class Course(models.Model):
+    #name = models.CharField(max_length=200, default='Classroom Unit')
+    subject = models.CharField(max_length=200)
+    course_description = models.CharField(max_length=200)
+
+    #text = models.CharField(max_length=200)
+    students = models.ManyToManyField(Student)
+    size = models.IntegerField(default=0)
+
+    def __str__(self):
+        #return self.classroom_name
+        return self.subject
+
+    def update_size(self):
+        self.size = 0
+        for student in self.students.all:
+            self.size += 1
+        self.save()
 
 
 class Quiz(models.Model):
@@ -21,20 +45,13 @@ class Quiz(models.Model):
     title_text = models.CharField(max_length=200)
     quiz_text = models.CharField(max_length=200)
     number_correct = models.IntegerField(default=0)
+    #course = models.OneToOneField(Classroom)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title_text
 
-    #total up number of correct answers
-    def totalCorrect(self):
-        self.number_correct = 0
-        for question in self.question_set.all:
-            if question.correct:
-                self.number_correct += 1
-        self.save()
-
     class Meta:
-        #app_label = 'Better Quizzes'
         verbose_name = 'Better Quiz'
         verbose_name_plural = 'Better Quizzes'
 
@@ -76,13 +93,22 @@ class Choice(models.Model):
         return self.choice_text
 
 
-#one to one with User, should hold unique student models.
-#Don't directly act on User, just on Student?
-class Student(models.Model):
+
+
+class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+
+    #courses = models.ForeignKey(Classroom, on_delete=models.CASCADE) 
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE) 
 
     def __str__(self):
         return self.user.username
+
+
+
 
 
 class AnswerSet(models.Model):
@@ -91,10 +117,53 @@ class AnswerSet(models.Model):
     answers = models.ManyToManyField(Choice)
     score = models.IntegerField(default=-1)
 
+    #percent correct
+    grade = models.DecimalField(default=0, max_digits=4, decimal_places=2)
+
+
     def update_score(self):
         self.score = 0
         for choice in self.answers.all():
             if choice.correct == True:
                 self.score += 1
         self.save()
+
+    def update_grade(self):
+        num_questions = self.quiz.question_set.count
+        self.grade = score/num_questions
+        self.save()
+
+
+#class ClassResults(models.Model):
+    #quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE) 
+
+
+#class ClassAnswerSet(models.Model):
+class ClassQuizResults(models.Model):
+    #connection to course and quiz
+    #teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, default=-1)
+    #course = models.ForeignKey(Course, on_delete=models.CASCADE, default=-1)
+    #course = models.ForeignKey(Course, on_delete=models.CASCADE, default=-1)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
+
+    #fields that I want to be able to see in HTML at some point
+    #average is total class average, ie sum of individual scores/count
+    average = models.IntegerField(default=0)
+    #median score
+    median = models.IntegerField(default=0)
+    #std dev
+    std_dev = models.IntegerField(default=0)
+
+    #iterable of all answer sets for some quiz
+    #answer_sets = quiz.answerset_set.all()
+    answer_sets = [answerset for answerset in quiz.answerset_set.all()]
+
+    def set_average(self):
+        self.average = 0
+        for answer_set in answer_sets:
+            sum_grades += answer_set.grade
+        self.average = sum_grades/answer_sets.count
+        self.save()
+
+
 
