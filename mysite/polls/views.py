@@ -139,6 +139,11 @@ def submit_quiz(request, quiz_id):
         #number of quiz questions
         num_questions = quiz.question_set.count()
 
+        #make this a clearchoices function in answerset
+        for set_choice in answer_set.answers.all():
+            answer_set.answers.remove(set_choice)
+            answer_set.save()
+
         #if post dictionary has less the number of questions + 1
         # where the 1 is for the CSRF token, reload and send message
         if len(post_dict) < num_questions + 1:
@@ -156,14 +161,10 @@ def submit_quiz(request, quiz_id):
 
             return render(request,'polls/detail.html',{
                 'quiz': quiz,
-                'answerset': answerset,
+                'answerset': answer_set,
                 })
             #render html with message flag set
 
-
-        for set_choice in answer_set.answers.all():
-            answer_set.answers.remove(set_choice)
-            answer_set.save()
 
         for k, v in post_dict.items():
             if k != 'csrfmiddlewaretoken':

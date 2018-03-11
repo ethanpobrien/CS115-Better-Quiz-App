@@ -33,6 +33,10 @@
       {% endif %}
 
         {% comment %}
+      {% if answerset %}
+              <p class="quiz-title">answer set<p>
+      {% endif %}
+
         basically want if answer_set, set radio to checked="checked"
         {% if AnswerSet.objects.get(user=user.student, quiz=quiz) %}
               <p class="quiz-title">answer set exists<p>
@@ -46,8 +50,17 @@
             <h3 class="question-text"> {{ question.question_text }} </h3>
             <div class="choice-wrapper">
             {% for choice in question.choice_set.all %}
+
+                {% if choice in answerset.answers.all %}
+              <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}" checked="checked"/>
+              <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
+                {% else %}
               <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}"/>
               <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
+              {% endif %}
+
+
+
             {% endfor %}
             </div>
           </div>
