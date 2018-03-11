@@ -23,7 +23,7 @@
     <div class="aspect-wrapper">
         <div class="quiz-wrapper">
             <p class="quiz-title"> Score for {{ quiz.title_text }}: {{ answerset.score }} / {{ quiz.question_set.count }}</p>
-            <p class="quiz-title"> {{ quiz.title_text }}</p>
+            {# <p class="quiz-title"> {{ quiz.title_text }}</p> #}
 
             {% for question in quiz.question_set.all %}
               <div class="question-wrapper">

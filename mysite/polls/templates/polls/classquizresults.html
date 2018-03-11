@@ -1,2 +1,9 @@
-{{quiz.title_text}}
-{{class_results.average}}
+{% extends "polls/base.html" %}
+<body>
+{% block content %}
+    <div class="quiz-wrapper">
+        <p class="quiz-title">Class results for {{quiz.title_text}}</p>
+        <h3 class="question-text">Class average on {{quiz.title_text}} was {{class_results.average|floatformat:2}}</h3>
+    </div>
+{% endblock %}
+</body>

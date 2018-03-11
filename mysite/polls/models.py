@@ -118,7 +118,7 @@ class AnswerSet(models.Model):
     score = models.IntegerField(default=-1)
 
     #percent correct
-    grade = models.DecimalField(default=0, max_digits=4, decimal_places=2)
+    grade = models.DecimalField(max_digits=4, decimal_places=2)
 
 
     def update_score(self):
@@ -134,12 +134,8 @@ class AnswerSet(models.Model):
             count += 1
         self.update_score()
         score = self.score
-        self.grade = score/count
+        self.grade = float(score/count)
         self.save()
-
-
-#class ClassResults(models.Model):
-    #quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE) 
 
 
 #class ClassAnswerSet(models.Model):
