@@ -34,12 +34,16 @@ class PageNotFoundMiddleware(MiddlewareMixin):
                     return HttpResponseRedirect("/polls/")
 
 class TestAlreadyTakenMiddleware(MiddlewareMixin):
+    #checks if quiz already taken. If taken already, redirect to results.
     def process_request(self, request):
         path = request.path_info
         print(path)
-        if("polls" in path) & (path != "/polls/"):
+        #only perform action if they're about to try to take quiz.
+        if("polls" in path) & (path != "/polls/") & ('results' not in path):
+            #get quiz id from url
             parseID  = request.path.split('/')[2:]
             QuizID = int(parseID[0])
+            #get current user's answerset
             current_user = request.user
             student_to_access = Student.objects.get_or_create(user=current_user)
             possible_student = student_to_access[0]
@@ -53,7 +57,7 @@ class TestAlreadyTakenMiddleware(MiddlewareMixin):
             answer_set.save()
             print(answer_set.quiz.quiz_text)
             print(answer_set.score)
+            #if quiz not taken yet, redirect to results page
             if (answer_set.score != -1):
-                print('keylime')
-                #to_redirect = '/polls/'+str(answer_set.id)+'/show_results/'
-                #return HttpResponseRedirect(to_redirect)
+                to_redirect = '/polls/'+str(answer_set.id)+'/show_results/'
+                return HttpResponseRedirect(to_redirect)

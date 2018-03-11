@@ -45,6 +45,7 @@ def show_results(request, answer_set_id):
     current_user = request.user
     #get student object from user object
     print(current_user.id)
+    print('codeWWORKSSSSSSSSSSSSSSSSSSSSSSSSS')
     possible_student = Student.objects.get_or_create(user=current_user)
     current_student = possible_student[0]
     current_student.save()
