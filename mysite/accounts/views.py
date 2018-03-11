@@ -10,7 +10,6 @@ def signup_view(request):
             user = form.save()
             # login in the user
             login(request, user)
-            #return redirect('/polls/')
             return redirect('/polls/edit_info/')
     else:
         form = UserCreationForm()

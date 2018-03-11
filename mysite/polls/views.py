@@ -116,6 +116,7 @@ def edit_info(request):
 #def submit_quiz(request, answer_set_id):
 def enter_info(request):
     current_user = request.user
+    student = Student.create(user=current_user)
 
     if request.method == 'POST':
         post_obj = request.POST
@@ -129,13 +130,16 @@ def enter_info(request):
                     return render(request,'polls/edit_info.html',{})
                 else:
                     if k == 'first_name':
-                        current_user.first_name = v 
+                        student.first_name = v
                     if k == 'last_name':
-                        current_user.last_name = v
+                        student.last_name = v
+
                     #clean data
 
 
         #return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
+
+        student.save()
         return HttpResponseRedirect(reverse('polls:index'))
 
 #def submit_quiz(request, answer_set_id):

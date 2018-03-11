@@ -20,10 +20,16 @@
     <div class="name-form">
         <form action="{% url 'polls:enter_info' %}" method="post">
             {% csrf_token %}
-            <label class="name-form-label" for="first_name">First name: </label>
+            <div class="name-form-label">
+                <label for="first_name">First name: </label>
+            </div>
+
             <input id="first_name" type="text" name="first_name">
             
-            <label for="last_name">Last name: </label>
+            <div class="name-form-label">
+                <label for="last_name">Last name: </label>
+            </div>
+
             <input id="last_name" type="text" name="last_name">
             <input class="btn btn-default" type="submit" value="Submit"/>
         </form>

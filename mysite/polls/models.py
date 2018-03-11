@@ -13,11 +13,14 @@ class Student(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
 
-    #courses = models.ForeignKey(Classroom, on_delete=models.CASCADE) 
-    #added student as many to many in Classroom instead
-
     def __str__(self):
         return self.user.username
+
+    #classmethod to create new student from user
+    @classmethod
+    def create(cls, user):
+        student = cls(user=user)
+        return student
 
 #class Classroom(models.Model):
 class Course(models.Model):
@@ -140,10 +143,6 @@ class AnswerSet(models.Model):
 
 #class ClassAnswerSet(models.Model):
 class ClassQuizResults(models.Model):
-    #connection to course and quiz
-    #teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, default=-1)
-    #course = models.ForeignKey(Course, on_delete=models.CASCADE, default=-1)
-    #course = models.ForeignKey(Course, on_delete=models.CASCADE, default=-1)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
     #answerset = models.ForeignKey(AnswerSet, on_delete=models.CASCADE, default=-1)
 
