@@ -7,17 +7,19 @@
 
 {% block content %}
 <div class="dash-wrapper">
-  <h1 id="dash-header"> Quiz App Dashboard </h1>
-  {% if latest_quiz_list %}
-  <ul>
-    {% for quiz in latest_quiz_list %}
-      <div class="quiz-list">
-      <a href="{% url 'polls:detail' quiz.id %}"> {{ quiz.title_text }} </a>
-      </div>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p> You have no quizzes yet! </p>
-  {% endif %}
+    <div class="dash-title">
+        <h1 id="dash-header"> Quiz App Dashboard </h1>
+    </div>
+    {% if latest_quiz_list %}
+    <ul>
+        {% for quiz in latest_quiz_list %}
+        <div class="list-wrapper">
+            <a href="{% url 'polls:detail' quiz.id %}"> {{ quiz.title_text }} </a>
+        </div>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p> You have no quizzes yet! </p>
+    {% endif %}
 </div>
 {% endblock %}
