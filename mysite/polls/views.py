@@ -124,13 +124,3 @@ def handler500(request, template_name='500.html'):
     response = render_to_response('500.html', {})
     response.status_code = 500
     return response
-
-def return_to_home():
-    if not request.user.is_authenticated:
-        ##takes in current path as string
-        path = request.path_info
-        # if path is not admin or account, redirect if not logged in.
-        # store any non-userlocked sites in redirect_ignore
-        redirect_ignore = ["admin", "account"]
-        if not any(category in path for category in redirect_ignore):
-            return HttpResponseRedirect("/accounts/login/")
