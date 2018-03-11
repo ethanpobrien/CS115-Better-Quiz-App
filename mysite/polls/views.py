@@ -4,6 +4,9 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
+from django.template.response import TemplateResponse
 
 from .models import Choice, Question, Quiz, Student, AnswerSet, ClassQuizResults
 
@@ -132,6 +135,27 @@ def submit_quiz(request, quiz_id):
     if request.method == 'POST':
         post_obj = request.POST
         post_dict = post_obj.dict()
+
+        #number of quiz questions
+        num_questions = quiz.question_set.count()
+
+        #if post dictionary has less the number of questions + 1
+        # where the 1 is for the CSRF token, reload and send message
+        if len(post_dict) < num_questions + 1:
+            messages.add_message(request, 30, 'You cannot submit a quiz unless you have answered every question')
+            for k, v in post_dict.items():
+                if k != 'csrfmiddlewaretoken':
+                    for question in quiz.question_set.all():
+                        if int(k) == question.id:
+                            answer = Choice.objects.get(pk=v) 
+                            answer.votes += 1
+                            answer.save()
+
+                            answer_set.answers.add(answer)
+                            answer_set.update_score()
+            return HttpResponseRedirect(reverse('polls:detail', args=(quiz.id,)))
+            #render html with message flag set
+
 
         for set_choice in answer_set.answers.all():
             answer_set.answers.remove(set_choice)

@@ -24,10 +24,23 @@
     <div class="quiz-wrapper">
 
       <p class="quiz-title">{{ quiz.title_text }}</p>
+      {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+              <p class="quiz-title">{{ message }}<p>
+          {% endfor %}    
+      </ul>
+      {% endif %}
 
+        {% comment %}
+        basically want if answer_set, set radio to checked="checked"
+        {% if AnswerSet.objects.get(user=user.student, quiz=quiz) %}
+              <p class="quiz-title">answer set exists<p>
+        {% endif %}
+        {% endcomment %}
+        
       <form action="{% url 'polls:submit_quiz' quiz.id %}" method="post">
         {% csrf_token %}
-
         {% for question in quiz.question_set.all %}
           <div class="question-wrapper">
             <h3 class="question-text"> {{ question.question_text }} </h3>
@@ -44,3 +57,4 @@
     </div>
   </div>
 </div>
+
