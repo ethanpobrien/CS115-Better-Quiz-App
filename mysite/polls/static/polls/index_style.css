@@ -68,11 +68,18 @@ body { padding-top: 50px; }
 }
 
 .quiz-list{
-    color: white
+    color: white;
     padding-left: 3%;
     padding-top: 3%;
     padding-right: 3%;
     border-style: solid;
+}
+
+.name-form{
+    font-color: black;
+    padding-left: 3%;
+    padding-top: 3%;
+    padding-right: 3%;
 }
 
 

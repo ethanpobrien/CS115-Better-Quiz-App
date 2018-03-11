@@ -1,0 +1,32 @@
+{% extends "polls/base.html" %}
+{% block static %}
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel = "stylesheet" type="text/css" href="{% static 'polls/index_style.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="dash-wrapper">
+    <div class="dash-title">
+        <h3>Please enter your first and last name before proceeding</h3>
+    </div>
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <p class="quiz-message">{{ message }}<p>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="name-form">
+        <form action="{% url 'polls:enter_info' %}" method="post">
+            {% csrf_token %}
+            <label class="name-form-label" for="first_name">First name: </label>
+            <input id="first_name" type="text" name="first_name">
+            
+            <label for="last_name">Last name: </label>
+            <input id="last_name" type="text" name="last_name">
+            <input class="btn btn-default" type="submit" value="Submit"/>
+        </form>
+    </div>
+</div>
+{% endblock %}

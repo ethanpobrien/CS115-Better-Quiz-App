@@ -19,4 +19,7 @@ urlpatterns = [
     #       for page
     path('classresults/', views.ClassQuizResultsView.as_view(), name='classquizresultsview'),
     path('<int:classquizresults_id>/classquizresults/', views.classquizresults, name='classquizresults'),
+
+    path('edit_info/', views.edit_info, name='edit_info'),
+    path('enter_info/', views.enter_info, name='enter_info'),
 ]

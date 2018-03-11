@@ -38,8 +38,18 @@ body { padding-top: 50px; }
     font-size:3em;
     border-radius: 25px 25px 0px 0px;
     width: 100%;
+    /*
     padding: 5px;
     margin-top: 2.5%;
+    */
+}
+
+.quiz-message{
+    text-align: center;
+    background-color: #7272FE;
+    color: white;
+    font-size:20px;
+    width: 100%;
 }
 
 .question-wrapper{

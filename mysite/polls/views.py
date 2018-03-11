@@ -107,6 +107,36 @@ def show_results(request, answer_set_id):
         'answer_set_id': answerset.id,
         })
 
+def edit_info(request):
+    current_user = request.user
+    return render(request, 'polls/edit_info.html',{
+        'user': current_user,
+        })
+
+#def submit_quiz(request, answer_set_id):
+def enter_info(request):
+    current_user = request.user
+
+    if request.method == 'POST':
+        post_obj = request.POST
+        post_dict = post_obj.dict()
+        print(post_dict)
+
+        for k, v in post_dict.items():
+            if k != 'csrfmiddlewaretoken':
+                if v == '':
+                    messages.add_message(request, 30, 'You must enter your first and last name before proceeding')
+                    return render(request,'polls/edit_info.html',{})
+                else:
+                    if k == 'first_name':
+                        current_user.first_name = v 
+                    if k == 'last_name':
+                        current_user.last_name = v
+                    #clean data
+
+
+        #return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
+        return HttpResponseRedirect(reverse('polls:index'))
 
 #def submit_quiz(request, answer_set_id):
 def submit_quiz(request, quiz_id):
@@ -122,6 +152,7 @@ def submit_quiz(request, quiz_id):
     possible_answer_set = AnswerSet.objects.get_or_create(
         student = current_student, 
         quiz=quiz,
+        grade=0,
     )
     answer_set = possible_answer_set[0]
     answer_set.save()

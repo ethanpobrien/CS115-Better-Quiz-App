@@ -25,9 +25,9 @@
 
       <p class="quiz-title">{{ quiz.title_text }}</p>
       {% if messages %}
-      <ul class="messages">
+      <ul>
           {% for message in messages %}
-              <p class="quiz-title">{{ message }}<p>
+              <p class="quiz-message">{{ message }}<p>
           {% endfor %}    
       </ul>
       {% endif %}
@@ -38,7 +38,6 @@
             <h3 class="question-text"> {{ question.question_text }} </h3>
             <div class="choice-wrapper">
             {% for choice in question.choice_set.all %}
-
                 {% if choice in answerset.answers.all %}
               <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}" checked="checked"/>
               <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
@@ -46,13 +45,11 @@
               <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}"/>
               <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
               {% endif %}
-
-
             {% endfor %}
             </div>
           </div>
         {% endfor %}
-        <input type="submit" value="Submit" />
+        <input class="btn btn-default" type="submit" value="Submit" />
       </form>
     </div>
   </div>

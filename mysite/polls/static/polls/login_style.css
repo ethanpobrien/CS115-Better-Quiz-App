@@ -46,6 +46,38 @@ body { padding-top: 50px; }
 
 }
 
+
+.signup-link-text{
+}
+
+.signup-link{
+    position: relative;
+    display: block;
+    margin: 10% auto;
+    width: 80%;
+    font-size: x-large;
+}
+
+#signup-btn{
+    outline: none;
+    position: relative;
+    display: block;
+    font-size: x-large;
+    margin: auto;
+    width: 100%;
+}
+
+/*
+#signup-btn:hover{
+    outline: none;
+    position: relative;
+    display: block;
+    margin: 10% auto;
+    width: 80%;
+    font-size: x-large;
+}
+*/
+
 .input-form{
     border: none;
 }

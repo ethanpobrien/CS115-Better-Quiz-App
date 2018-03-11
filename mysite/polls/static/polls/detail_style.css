@@ -42,6 +42,16 @@ body { padding-top: 50px; }
     margin-top: 2.5%;
 }
 
+.quiz-message{
+    text-align: center;
+    background-color: #7272FE;
+    color: white;
+    font-size:20px;
+    width: 100%;
+    padding: 5px;
+    margin-top: 2.5%;
+}
+
 .question-wrapper{
     padding: 0px 0px 3% 0px;
     border-radius: 25px 25px 25px 25px;
