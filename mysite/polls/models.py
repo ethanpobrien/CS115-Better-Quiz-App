@@ -129,8 +129,12 @@ class AnswerSet(models.Model):
         self.save()
 
     def update_grade(self):
-        num_questions = self.quiz.question_set.count
-        self.grade = score/num_questions
+        count = 0
+        for q in self.quiz.question_set.all():
+            count += 1
+        self.update_score()
+        score = self.score
+        self.grade = score/count
         self.save()
 
 
@@ -145,6 +149,7 @@ class ClassQuizResults(models.Model):
     #course = models.ForeignKey(Course, on_delete=models.CASCADE, default=-1)
     #course = models.ForeignKey(Course, on_delete=models.CASCADE, default=-1)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
+    #answerset = models.ForeignKey(AnswerSet, on_delete=models.CASCADE, default=-1)
 
     #fields that I want to be able to see in HTML at some point
     #average is total class average, ie sum of individual scores/count
@@ -155,14 +160,18 @@ class ClassQuizResults(models.Model):
     std_dev = models.IntegerField(default=0)
 
     #iterable of all answer sets for some quiz
-    #answer_sets = quiz.answerset_set.all()
-    answer_sets = [answerset for answerset in quiz.answerset_set.all()]
+    #def get_answer_sets
+
 
     def set_average(self):
         self.average = 0
-        for answer_set in answer_sets:
+        sum_grades = 0
+        count = 0
+        for answer_set in AnswerSet.objects.all().filter(quiz=self.quiz):
+            answer_set.update_grade()
             sum_grades += answer_set.grade
-        self.average = sum_grades/answer_sets.count
+            count += 1
+        self.average = sum_grades/count
         self.save()
 
 
