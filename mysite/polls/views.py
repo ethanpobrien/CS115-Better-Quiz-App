@@ -153,7 +153,11 @@ def submit_quiz(request, quiz_id):
 
                             answer_set.answers.add(answer)
                             answer_set.update_score()
-            return HttpResponseRedirect(reverse('polls:detail', args=(quiz.id,)))
+
+            return render(request,'polls/detail.html',{
+                'quiz': quiz,
+                'answerset': answerset,
+                })
             #render html with message flag set
 
 
