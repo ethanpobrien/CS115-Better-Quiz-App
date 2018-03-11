@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib.auth.models import User
 from .models import Choice, Question, Quiz, Student, AnswerSet
 
 
@@ -40,14 +41,13 @@ class ResultsView(generic.DetailView):
 
 
 def show_results(request, answer_set_id):
-    # get user
+    #get user
     current_user = request.user
-
-    # get student object from user object
+    #get student object from user object
+    print(current_user.id)
     possible_student = Student.objects.get_or_create(user=current_user)
     current_student = possible_student[0]
     current_student.save()
-
     answerset = get_object_or_404(AnswerSet, pk=answer_set_id)
     # get quiz
     quiz = get_object_or_404(Quiz, pk=answerset.quiz.id)
@@ -66,19 +66,17 @@ def submit_quiz(request, quiz_id):
     current_student = possible_student[0]
     # current_student is what we want
     current_student.save()
-
     quiz = get_object_or_404(Quiz, pk=quiz_id)
-
     # use student and quiz objects to get or create an answer set
     possible_answer_set = AnswerSet.objects.get_or_create(
         student=current_student,
         quiz=quiz,
     )
     answer_set = possible_answer_set[0]
-    answer_set.save()
 
     # right now, pushes through to command line where runserver was used
     # shows correct selections inside the post data...
+
     if request.method == 'POST':
         post_obj = request.POST
         # print(list(post_obj.items()))

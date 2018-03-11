@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404, render
+from django.http import HttpRequest
 from django.http import HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
+from django.contrib.auth.models import User
+from django.urls import reverse
 import sys
 sys.path.append('/mysite/polls')
-from ..polls.models import Choice, Question, Quiz, AnswerSet, Student
-
+from polls.models import Choice, Question, Quiz, AnswerSet, Student
 
 class LoginRequiredMiddleware(MiddlewareMixin):
     #ensures user is logged in before trying to access anything
@@ -31,18 +33,27 @@ class PageNotFoundMiddleware(MiddlewareMixin):
                 else:
                     return HttpResponseRedirect("/polls/")
 
-class TestAlreadyTakenMiddleWare(MiddlewareMixin):
+class TestAlreadyTakenMiddleware(MiddlewareMixin):
     def process_request(self, request):
         path = request.path_info
-        if("polls" in path):
-            polls, QuizID  = request.path.split('/')[-1:]
+        print(path)
+        if("polls" in path) & (path != "/polls/"):
+            parseID  = request.path.split('/')[2:]
+            QuizID = int(parseID[0])
             current_user = request.user
-            student = Student.objects.get_or_create(user=current_user)
-            quiz = get_object_or_404(Quiz, pk=QuizID)
+            student_to_access = Student.objects.get_or_create(user=current_user)
+            possible_student = student_to_access[0]
+            possible_student.save()
+            quiz_to_access = get_object_or_404(Quiz, pk=QuizID)
             possible_answer_set = AnswerSet.objects.get_or_create(
-                student=student,
-                quiz=quiz,
+                student=possible_student,
+                quiz=quiz_to_access,
             )
             answer_set = possible_answer_set[0]
-            if answer_set.score != -1:
-                return HttpResponseRedirect('/polls/<int:answer_set_id>/show_results/')
+            answer_set.save()
+            print(answer_set.quiz.quiz_text)
+            print(answer_set.score)
+            if (answer_set.score != -1):
+                print('keylime')
+                #to_redirect = '/polls/'+str(answer_set.id)+'/show_results/'
+                #return HttpResponseRedirect(to_redirect)
