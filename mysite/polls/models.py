@@ -1,9 +1,7 @@
 import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-
 
 
 #one to one with User, should hold unique student models.
@@ -23,13 +21,9 @@ class Student(models.Model):
         return student
 
 
-#class Classroom(models.Model):
 class Course(models.Model):
-    #name = models.CharField(max_length=200, default='Classroom Unit')
     subject = models.CharField(max_length=200)
     course_description = models.CharField(max_length=200)
-
-    #text = models.CharField(max_length=200)
     students = models.ManyToManyField(Student)
     size = models.IntegerField(default=0)
 
@@ -44,34 +38,40 @@ class Course(models.Model):
         self.save()
 
 
+class Teacher(models.Model):
+    #if teacher, can access uuser
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    courses = models.ForeignKey(Course, on_delete=models.CASCADE) 
+
+    def __str__(self):
+        return self.user.username
+
+
 class Quiz(models.Model):
-    #title_text = models.CharField(max_length=200, default='quiz title')
     title_text = models.CharField(max_length=200)
     quiz_text = models.CharField(max_length=200)
     number_correct = models.IntegerField(default=0)
-    #course = models.OneToOneField(Classroom)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title_text
 
     class Meta:
+        #changes to plural form if more than one
         verbose_name = 'Better Quiz'
         verbose_name_plural = 'Better Quizzes'
-
 
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
-
     #If the user answers correctly, hence false default
     correct = models.BooleanField(default=False)
-
     #always!! contains ID of choice with .correct = True
     correct_answer = models.IntegerField(default=-1)
-
     selected_answer = models.IntegerField(default=-2)
 
     def __str__(self):
@@ -97,33 +97,13 @@ class Choice(models.Model):
         return self.choice_text
 
 
-
-
-class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-
-    #courses = models.ForeignKey(Classroom, on_delete=models.CASCADE) 
-    courses = models.ForeignKey(Course, on_delete=models.CASCADE) 
-
-    def __str__(self):
-        return self.user.username
-
-
-
-
-
 class AnswerSet(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, default=-1)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
     answers = models.ManyToManyField(Choice)
     score = models.IntegerField(default=-1)
-
     #percent correct
     grade = models.DecimalField(max_digits=4, decimal_places=2)
-
 
     def update_score(self):
         self.score = 0
@@ -145,8 +125,6 @@ class AnswerSet(models.Model):
 #class ClassAnswerSet(models.Model):
 class ClassQuizResults(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, default=-1)
-    #answerset = models.ForeignKey(AnswerSet, on_delete=models.CASCADE, default=-1)
-
     #fields that I want to be able to see in HTML at some point
     #average is total class average, ie sum of individual scores/count
     average = models.IntegerField(default=0)
@@ -158,8 +136,7 @@ class ClassQuizResults(models.Model):
     high_grade = models.DecimalField(max_digits=4, decimal_places=2, default=0)
 
     #iterable of all answer sets for some quiz
-    #def get_answer_sets
-
+    #returns highest score (as percent)
     def get_high(self):
         high = 0
         for answer_set in AnswerSet.objects.all().filter(quiz=self.quiz):
@@ -170,7 +147,7 @@ class ClassQuizResults(models.Model):
         self.high_grade = high
         self.save()
 
-
+    #returns lowest score (as percent)
     def get_low(self):
         low = 1000
         for answer_set in AnswerSet.objects.all().filter(quiz=self.quiz):
@@ -181,8 +158,7 @@ class ClassQuizResults(models.Model):
         self.low_grade = low
         self.save()
 
-
-
+    #returns average score (as percent)
     def set_average(self):
         self.average = 0
         sum_grades = 0
@@ -193,6 +169,3 @@ class ClassQuizResults(models.Model):
             count += 1
         self.average = sum_grades/count
         self.save()
-
-
-
