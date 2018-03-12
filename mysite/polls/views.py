@@ -91,12 +91,6 @@ def show_results(request, answer_set_id):
         'quiz': quiz,
         'answerset': answerset,
         'answer_set_id': answerset.id,
-<<<<<<< HEAD
-    })
-
-
-# def submit_quiz(request, answer_set_id):
-=======
         })
 
 def edit_info(request):
@@ -135,7 +129,6 @@ def enter_info(request):
         return HttpResponseRedirect(reverse('polls:index'))
 
 #def submit_quiz(request, answer_set_id):
->>>>>>> user_results
 def submit_quiz(request, quiz_id):
     current_user = request.user
     possible_student = Student.objects.get_or_create(user=current_user)
@@ -154,19 +147,6 @@ def submit_quiz(request, quiz_id):
     answer_set = possible_answer_set[0]
     answer_set.save()
 
-<<<<<<< HEAD
-    # right now, pushes through to command line where runserver was used
-    # shows correct selections inside the post data...
-    if request.method == 'POST':
-        post_obj = request.POST
-        # print(list(post_obj.items()))
-        post_dict = post_obj.dict()
-
-        # dict_list = post_dict.items()
-        # sliced_dict_list = dict_list[1:]
-
-        # clears any choices
-=======
     #create or add to class quiz results
     poss_results = ClassQuizResults.objects.get_or_create(quiz=quiz)
     class_results = poss_results[0]
@@ -181,30 +161,10 @@ def submit_quiz(request, quiz_id):
         num_questions = quiz.question_set.count()
 
         #make this a clearchoices function in answerset
->>>>>>> user_results
         for set_choice in answer_set.answers.all():
             answer_set.answers.remove(set_choice)
             answer_set.save()
 
-<<<<<<< HEAD
-        # this prints key, value pairs from the dict, and it lists question.id, choice.id
-        # and also the CSRF token right at the start... just skip with slicing?
-        for k, v in post_dict.items():
-            print(k, v)
-            # print(type(k))
-            # print(int(k, base=10))
-            # if type(k) == int:
-            if k != 'csrfmiddlewaretoken':
-                for question in quiz.question_set.all():
-                    print('k = ', k)
-                    # print('k = ', int(k))
-                    print('question.id = ', question.id)
-                    if int(k) == question.id:
-                        print('inside if loop lol')
-                        print(k)
-                        answer = Choice.objects.get(pk=v)
-                        answer_set.answers.add(answer)
-=======
         #if post dictionary has less the number of questions + 1
         # where the 1 is for the CSRF token, reload and send message
         if len(post_dict) < num_questions + 1:
@@ -235,7 +195,6 @@ def submit_quiz(request, quiz_id):
                         answer = Choice.objects.get(pk=v) 
                         answer.votes += 1
                         answer.save()
->>>>>>> user_results
 
                         answer_set.answers.add(answer)
                         answer_set.update_score()
