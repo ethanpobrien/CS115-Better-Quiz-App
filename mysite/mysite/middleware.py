@@ -39,7 +39,7 @@ class TestAlreadyTakenMiddleware(MiddlewareMixin):
         path = request.path_info
         print(path)
         #only perform action if they're about to try to take quiz.
-        if("polls" in path) & (path != "/polls/") & ('results' not in path):
+        if("polls" in path) & (path != "/polls/") & ('results' not in path) & ('admin' not in path):
             #get quiz id from url
             parseID  = request.path.split('/')[2:]
             QuizID = int(parseID[0])
