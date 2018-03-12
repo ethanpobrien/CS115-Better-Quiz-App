@@ -22,6 +22,7 @@ class Student(models.Model):
         student = cls(user=user)
         return student
 
+
 #class Classroom(models.Model):
 class Course(models.Model):
     #name = models.CharField(max_length=200, default='Classroom Unit')

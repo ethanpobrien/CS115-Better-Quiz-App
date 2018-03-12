@@ -39,11 +39,6 @@ class QuizDetailView(generic.DetailView):
     def get_queryset(self):
         return Quiz.objects.all()
 
-
-class ResultsView(generic.DetailView):
-    model = Quiz
-    template_name = 'polls/results.html'
-
 #class AnswerSetDetailView(generic.DetailView):
 class AnswerSetView(generic.ListView):
     #model = AnswerSet
@@ -77,14 +72,7 @@ def classquizresults(request, classquizresults_id):
         })
 
 def show_results(request, answer_set_id):
-    # get user
-    current_user = request.user
-
-    # get student object from user object
-    possible_student = Student.objects.get_or_create(user=current_user)
-    current_student = possible_student[0]
-    current_student.save()
-
+    #get rid of AnswerSet
     answerset = get_object_or_404(AnswerSet, pk=answer_set_id)
     # get quiz
     quiz = get_object_or_404(Quiz, pk=answerset.quiz.id)
@@ -198,23 +186,3 @@ def submit_quiz(request, quiz_id):
 
 
     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
-
-#def handler404(request, exception, template_name='404.html'):
-    #response = render_to_response('404.html', {})
-    #response.status_code = 404
-    #return response
-
-#def handler500(request, template_name='500.html'):
-    #response = render_to_response('500.html', {})
-    #response.status_code = 500
-    #return response
-
-#def return_to_home():
-    #if not request.user.is_authenticated:
-        ###takes in current path as string
-        #path = request.path_info
-        ## if path is not admin or account, redirect if not logged in.
-        ## store any non-userlocked sites in redirect_ignore
-        #redirect_ignore = ["admin", "account"]
-        #if not any(category in path for category in redirect_ignore):
-            #return HttpResponseRedirect("/accounts/login/")
