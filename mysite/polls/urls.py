@@ -14,9 +14,6 @@ urlpatterns = [
 
     path('answerset/<int:pk>/', views.AnswerSetView.as_view(), name='answer_set_view'),
     
-    #path('<int:pk>/classquizresults/', views.ClassQuizResultsView.as_view(), name='classquizresults'),
-    #paths for class quiz results, first path for pagelist and second 
-    #       for page
     path('classresults/', views.ClassQuizResultsView.as_view(), name='classquizresultsview'),
     path('<int:classquizresults_id>/classquizresults/', views.classquizresults, name='classquizresults'),
 

@@ -2,8 +2,14 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
 import sys
-sys.path.append('/mysite/polls')
-from ..polls.models import Choice, Question, Quiz, AnswerSet, Student
+sys.path.append('/mysite/polls/')
+from polls.models import Choice, Question, Quiz, AnswerSet, Student
+from django.contrib import messages
+from django.contrib.messages import get_messages
+from django.urls import resolve
+from django.urls import reverse
+from polls import views
+from polls import urls 
 
 
 class LoginRequiredMiddleware(MiddlewareMixin):
@@ -31,18 +37,33 @@ class PageNotFoundMiddleware(MiddlewareMixin):
                 else:
                     return HttpResponseRedirect("/polls/")
 
-class TestAlreadyTakenMiddleWare(MiddlewareMixin):
-    def process_request(self, request):
-        path = request.path_info
-        if("polls" in path):
-            polls, QuizID  = request.path.split('/')[-1:]
-            current_user = request.user
-            student = Student.objects.get_or_create(user=current_user)
-            quiz = get_object_or_404(Quiz, pk=QuizID)
-            possible_answer_set = AnswerSet.objects.get_or_create(
-                student=student,
-                quiz=quiz,
-            )
-            answer_set = possible_answer_set[0]
-            if answer_set.score != -1:
-                return HttpResponseRedirect('/polls/<int:answer_set_id>/show_results/')
+
+class TestAlreadyTakenMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        res = resolve(request.path)
+        print('call res')
+        print(res)
+        response = self.get_response(request)
+        return response
+
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        res = resolve(request.path)
+        user = request.user
+        if res.url_name == 'detail':
+            quiz_id = res.kwargs
+            quiz = Quiz.objects.get(pk=quiz_id['pk'])
+            student = Student.objects.get(user=user)
+            sets = AnswerSet.objects.all().filter(student=student, quiz=quiz)
+            if not sets:
+                return None
+            else:
+                answer_set = sets[0]
+                print(answer_set)
+                print(answer_set.answers.count())
+                print(quiz.question_set.count())
+                if answer_set.answers.count() == quiz.question_set.count():
+                    return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
+
