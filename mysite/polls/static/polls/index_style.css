@@ -62,6 +62,17 @@ body { padding-top: 50px; }
     border-color: darkblue;
 }
 
+
+.stats-wrapper{
+    text-align: center;
+    background-color: lightblue;
+    color: black;
+    font-size:3em;
+    width: 100%;
+    border-style: dotted;
+    border-color: #0061ff;
+}
+
 #dash-header{
     color: white;
     padding-left: auto;

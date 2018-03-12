@@ -67,6 +67,8 @@ def classquizresults(request, classquizresults_id):
     quiz = get_object_or_404(Quiz, pk=results.quiz.id)
 
     results.set_average()
+    results.get_low()
+    results.get_high()
     results.save()
     
     return render(request, 'polls/classquizresults.html', {
@@ -119,11 +121,6 @@ def enter_info(request):
                         student.first_name = v
                     if k == 'last_name':
                         student.last_name = v
-
-                    #clean data
-
-
-        #return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
 
         student.save()
         return HttpResponseRedirect(reverse('polls:index'))

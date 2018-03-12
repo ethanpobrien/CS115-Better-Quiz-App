@@ -153,9 +153,33 @@ class ClassQuizResults(models.Model):
     median = models.IntegerField(default=0)
     #std dev
     std_dev = models.IntegerField(default=0)
+    low_grade = models.DecimalField(max_digits=4, decimal_places=2, default=0)
+    high_grade = models.DecimalField(max_digits=4, decimal_places=2, default=0)
 
     #iterable of all answer sets for some quiz
     #def get_answer_sets
+
+    def get_high(self):
+        high = 0
+        for answer_set in AnswerSet.objects.all().filter(quiz=self.quiz):
+            answer_set.update_grade()
+            if answer_set.grade > high:
+                high = answer_set.grade
+
+        self.high_grade = high
+        self.save()
+
+
+    def get_low(self):
+        low = 1000
+        for answer_set in AnswerSet.objects.all().filter(quiz=self.quiz):
+            answer_set.update_grade()
+            if answer_set.grade < low:
+                low = answer_set.grade
+
+        self.low_grade = low
+        self.save()
+
 
 
     def set_average(self):

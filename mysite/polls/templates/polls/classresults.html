@@ -1,39 +1,25 @@
 {% extends "polls/base.html" %}
+{% block static %}
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel = "stylesheet" type="text/css" href="{% static 'polls/index_style.css' %}" />
+{% endblock %}
 
 {% block content %}
-  {% if results_list %}
-      {% for result in results_list %}
-      <a href="{% url 'polls:classquizresults' result.id %}">{{result.quiz.title_text}}</a>
-      {% endfor %}
-  {% endif %}
-     <div class="quiz-wrapper">
-       <p class="quiz-title">{{ quiz.title_text }}</p>
-       {% if messages %}
-       <ul>
-           {% for message in messages %}
-               <p class="quiz-message">{{ message }}<p>
-           {% endfor %}
-       </ul>
-       {% endif %}
-       <form action="{% url 'polls:submit_quiz' quiz.id %}" method="post">
-         {% csrf_token %}
-         {% for question in quiz.question_set.all %}
-           <div class="question-wrapper">
-             <h3 class="question-text"> {{ question.question_text }} </h3>
-             <div class="choice-wrapper">
-             {% for choice in question.choice_set.all %}
-                 {% if choice in answerset.answers.all %}
-               <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{     choice.id }}" checked="checked"/>
-               <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
-                 {% else %}
-               <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{     choice.id }}"/>
-               <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
-               {% endif %}
-             {% endfor %}
-             </div>
-           </div>
-         {% endfor %}
-         <input class="btn btn-default" type="submit" value="Submit" />
-       </form>
-     </div>
+<div class="dash-wrapper">
+    <div class="dash-title">
+        <h1 id="dash-header"> Class Quiz Averages</h1>
+    </div>
+    {% if results_list %}
+    <ul>
+        {% for result in results_list %}
+        <div class="list-wrapper">
+            <a href="{% url 'polls:classquizresults' result.id %}">Results for {{result.quiz.title_text}}</a>
+        </div>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p> You have no quizzes yet! </p>
+    {% endif %}
+</div>
 {% endblock %}
