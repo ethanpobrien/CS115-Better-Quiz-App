@@ -48,7 +48,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'mysite.middleware.LoginRequiredMiddleware',
-    #'mysite.middleware.PageNotFoundMiddleware'
+    'mysite.middleware.PageNotFoundMiddleware',
+    'mysite.middleware.TestAlreadyTakenMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'

@@ -16,12 +16,12 @@ body { padding-top: 50px; }
 }
 
 /*Used to set aspect ratio of quiz div*/
-.aspect-wrapper{
+.aspect-wrapper {
     display: table-cell;
     vertical-align: middle;
 }
 
-.quiz-wrapper{
+.dash-wrapper{
     width: 75%;
     height: 100%;
     margin-left: auto;
@@ -31,17 +31,59 @@ body { padding-top: 50px; }
     z-index: 5;
 }
 
-.quiz-title{
+.dash-title{
     text-align: center;
     background-color: darkblue;
     color: white;
     font-size:3em;
     border-radius: 25px 25px 0px 0px;
     width: 100%;
-    /*
     padding: 5px;
     margin-top: 2.5%;
-    */
+}
+
+.list-wrapper{
+    text-align: center;
+    background-color: lightblue;
+    color: white;
+    font-size:3em;
+    width: 100%;
+    padding: 5px;
+}
+
+.list-wrapper:hover{
+    text-align: center;
+    background-color: lightblue;
+    color: white;
+    font-size:3em;
+    width: 100%;
+    padding: 5px;
+    border-style: solid;
+    border-color: darkblue;
+}
+
+#dash-header{
+    color: white;
+    padding-left: auto;
+}
+
+.quiz-list{
+    color: white;
+    padding-left: 3%;
+    padding-top: 3%;
+    padding-right: 3%;
+    border-style: solid;
+}
+
+.name-form{
+    font-color: black;
+    padding-left: 3%;
+    padding-top: 3%;
+    padding-right: 3%;
+}
+
+.name-form-label{
+    color: white;
 }
 
 .quiz-message{
@@ -50,69 +92,20 @@ body { padding-top: 50px; }
     color: white;
     font-size:20px;
     width: 100%;
+    padding: 5px;
+    margin-top: 2.5%;
 }
 
-.question-wrapper{
-    padding: 0px 0px 3% 0px;
-    border-radius: 25px 25px 25px 25px;
+
+
+.quiz-link {
+    font-size: 20px;
+    margin-left: 20px: 
 }
 
-.question-text{
-    padding-left: 3%;
-    padding-top: .5%;
-    color: white;
-}
 
-.choice-wrapper{
-    padding-left: 3%;
-    padding-bottom: 1.5%;
-    color:white;
-}
 
-.choice-correct{
-    padding: 1.5% 1.5% 1.5% 1.5%;
-    width: 97%;
-    color:white;
-    background-color: green;
-}
-
-.choice-incorrect{
-    padding: 1.5% 1.5% 1.5% 1.5%;
-    width: 97%;
-    color:white;
-    background-color: red;
-}
-
-.choice-text{
-    color: white;
-    padding: 1.5% 1.5% 1.5% 1.5%;
-    width: 97%;
-}
-
-.btn .btn-default{
-    z-index: auto;
-}
-
-#retry-button{
-    /*position: relative;*/
-    /*margin-top: 25%;*/
-    text-align: center;
-    background-color: darkblue;
-    border-color: darkblue;
-    color: white;
-    font-size: 3em;
-    /*border-radius: 0px 0px 25px 25px;*/
-    width: 100%;
-    /*height:7%*/
-    /*padding: 5px;*/
-    /*margin-bottom: 2.5%;*/
-}
-
-#retry-button:hover{
-    background-color: #0000CD;
-    font-weight: bold;
-}
-
+/* NAVBAR RELATED ELEMENTS*/
 .btn{
     background-color: rgba(1,1,1,1);
     color: white;
@@ -121,8 +114,6 @@ body { padding-top: 50px; }
 .btn:hover{
     color: #0fac09;
 }
-
-
 .navbar-custom {
   background-color: rgba(1,1,1,1);
 }
@@ -131,7 +122,7 @@ body { padding-top: 50px; }
 }
 .navbar-custom .navbar-nav>li>a:focus,
 .navbar-custom .navbar-nav>li>a:hover {
-  color: #0fac09;
+  color: #CCCCCC;
 }
 .navbar-custom .navbar-brand {
     color: #fff;
@@ -140,6 +131,4 @@ body { padding-top: 50px; }
 .navbar-custom .navbar-brand:hover {
     color: yellow;
 }
-
-
-
+/**/

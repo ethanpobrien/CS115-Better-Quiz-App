@@ -4,7 +4,13 @@ from django.urls import reverse
 from django.views import generic
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from .models import Choice, Question, Quiz, Student, AnswerSet
+from django.utils import timezone
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
+from django.template.response import TemplateResponse
+
+from .models import Choice, Question, Quiz, Student, AnswerSet, ClassQuizResults
 
 
 
@@ -38,6 +44,35 @@ class ResultsView(generic.DetailView):
     model = Quiz
     template_name = 'polls/results.html'
 
+#class AnswerSetDetailView(generic.DetailView):
+class AnswerSetView(generic.ListView):
+    #model = AnswerSet
+    context_object_name = 'set_list'
+    template_name = 'polls/answersets.html'
+
+    def get_queryset(self):
+        return AnswerSet.objects.all()
+
+
+class ClassQuizResultsView(generic.ListView):
+    template_name = 'polls/classresults.html'
+    context_object_name = 'results_list'
+
+    def get_queryset(self):
+        return ClassQuizResults.objects.all()
+
+
+def classquizresults(request, classquizresults_id):
+    results = get_object_or_404(ClassQuizResults, pk=classquizresults_id)
+    quiz = get_object_or_404(Quiz, pk=results.quiz.id)
+
+    results.set_average()
+    results.save()
+    
+    return render(request, 'polls/classquizresults.html', {
+        'quiz': quiz,
+        'class_results': results,
+        })
 
 def show_results(request, answer_set_id):
     # get user
@@ -56,10 +91,51 @@ def show_results(request, answer_set_id):
         'quiz': quiz,
         'answerset': answerset,
         'answer_set_id': answerset.id,
+<<<<<<< HEAD
     })
 
 
 # def submit_quiz(request, answer_set_id):
+=======
+        })
+
+def edit_info(request):
+    current_user = request.user
+    return render(request, 'polls/edit_info.html',{
+        'user': current_user,
+        })
+
+#def submit_quiz(request, answer_set_id):
+def enter_info(request):
+    current_user = request.user
+    student = Student.create(user=current_user)
+
+    if request.method == 'POST':
+        post_obj = request.POST
+        post_dict = post_obj.dict()
+        print(post_dict)
+
+        for k, v in post_dict.items():
+            if k != 'csrfmiddlewaretoken':
+                if v == '':
+                    messages.add_message(request, 30, 'You must enter your first and last name before proceeding')
+                    return render(request,'polls/edit_info.html',{})
+                else:
+                    if k == 'first_name':
+                        student.first_name = v
+                    if k == 'last_name':
+                        student.last_name = v
+
+                    #clean data
+
+
+        #return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
+
+        student.save()
+        return HttpResponseRedirect(reverse('polls:index'))
+
+#def submit_quiz(request, answer_set_id):
+>>>>>>> user_results
 def submit_quiz(request, quiz_id):
     current_user = request.user
     possible_student = Student.objects.get_or_create(user=current_user)
@@ -73,10 +149,12 @@ def submit_quiz(request, quiz_id):
     possible_answer_set = AnswerSet.objects.get_or_create(
         student=current_student,
         quiz=quiz,
+        grade=0,
     )
     answer_set = possible_answer_set[0]
     answer_set.save()
 
+<<<<<<< HEAD
     # right now, pushes through to command line where runserver was used
     # shows correct selections inside the post data...
     if request.method == 'POST':
@@ -88,10 +166,27 @@ def submit_quiz(request, quiz_id):
         # sliced_dict_list = dict_list[1:]
 
         # clears any choices
+=======
+    #create or add to class quiz results
+    poss_results = ClassQuizResults.objects.get_or_create(quiz=quiz)
+    class_results = poss_results[0]
+    #current_student is what we want
+    class_results.save()
+
+    if request.method == 'POST':
+        post_obj = request.POST
+        post_dict = post_obj.dict()
+
+        #number of quiz questions
+        num_questions = quiz.question_set.count()
+
+        #make this a clearchoices function in answerset
+>>>>>>> user_results
         for set_choice in answer_set.answers.all():
             answer_set.answers.remove(set_choice)
             answer_set.save()
 
+<<<<<<< HEAD
         # this prints key, value pairs from the dict, and it lists question.id, choice.id
         # and also the CSRF token right at the start... just skip with slicing?
         for k, v in post_dict.items():
@@ -109,9 +204,42 @@ def submit_quiz(request, quiz_id):
                         print(k)
                         answer = Choice.objects.get(pk=v)
                         answer_set.answers.add(answer)
+=======
+        #if post dictionary has less the number of questions + 1
+        # where the 1 is for the CSRF token, reload and send message
+        if len(post_dict) < num_questions + 1:
+            messages.add_message(request, 30, 'You cannot submit a quiz unless you have answered every question')
+            print(messages)
+            for k, v in post_dict.items():
+                if k != 'csrfmiddlewaretoken':
+                    for question in quiz.question_set.all():
+                        if int(k) == question.id:
+                            answer = Choice.objects.get(pk=v) 
+                            answer.votes += 1
+                            answer.save()
 
+                            answer_set.answers.add(answer)
+                            answer_set.update_score()
+
+            return render(request,'polls/detail.html',{
+                'quiz': quiz,
+                'answerset': answer_set,
+                })
+            #render html with message flag set
+
+
+        for k, v in post_dict.items():
+            if k != 'csrfmiddlewaretoken':
+                for question in quiz.question_set.all():
+                    if int(k) == question.id:
+                        answer = Choice.objects.get(pk=v) 
+                        answer.votes += 1
+                        answer.save()
+>>>>>>> user_results
+
+                        answer_set.answers.add(answer)
                         answer_set.update_score()
-                        answer_set.save()
+
 
     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
 

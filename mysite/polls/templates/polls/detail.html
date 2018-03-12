@@ -1,97 +1,57 @@
-<!--Uses Bootstrap-->
 {% load static %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="{% static 'polls/login_style.css' %}"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel = "stylesheet" type="text/css" href="{% static 'polls/result_style.css' %}" />
 
 <header>
-    <nav class="navbar-custom navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">A Better Quiz App</a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Home</a></li>
-                <form id="logout-btn" class="navbar-form form-inline pull-right" action="/accounts/logout/"
-                      method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn">Log Out</button>
-                </form>
-
-            </ul>
-        </div><!-- /.container-fluid -->
-    </nav>
+  <nav class="navbar-custom navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">A Better Quiz App</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Home</a></li>
+        <form id="logout-btn" class="navbar-form form-inline pull-right" action="/accounts/logout/" method="post">
+          {% csrf_token %}
+          <button type="submit" class ="btn">Log Out</button>
+        </form>
+      </ul>
+    </div><!-- /.container-fluid -->
+  </nav>
 </header>
 
-<h1>{{ quiz.title_text }}</h1>
+<div class="site-wrapper">
+  <div class="aspect-wrapper">
+    <div class="quiz-wrapper">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>better quiz app</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'polls/detail_style.css' %}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-    {% comment %}
-{% for question in quiz.question_set.all %}
-<p> {{ question.question_text }} </p>
-    {% endcomment %}
-
-<form action="{% url 'polls:submit_quiz' quiz.id %}" method="post">
-{% csrf_token %}
-{% for question in quiz.question_set.all %}
-    <p> {{ question.question_text }} </p>
-    {% for choice in question.choice_set.all %}
-    <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}"/>
-    <label for="choice{{ choice.id }}">{{choice.choice_text}}</label></br>
-    {% endfor %}
-{% endfor %}
-<input type="submit" value="Submit" />
-</form>
-
-{% comment %}
-<div class="nav">
-      <div class="container">
-        <ul class ="pull-left">
-          <li><a href="#">Logo</a></li>
-          <li><a href="#">Home</a></li>
-        </ul>
-        <ul class ="pull-right">
-          <li><a href="#">Sign Up</a></li>
-          <li><a href="#">Log In</a></li>
-        </ul>
-      </div>
-    </div>
-
-<div class="jumbotron">
-      <div class="container">
-        <h1 class ="text-center">{{ quiz.title_text }}</h1>
-          {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-      </div>
-
-
-    <div class="question">
+      <p class="quiz-title">{{ quiz.title_text }}</p>
+      {% if messages %}
+      <ul>
+          {% for message in messages %}
+              <p class="quiz-message">{{ message }}<p>
+          {% endfor %}    
+      </ul>
+      {% endif %}
+      <form action="{% url 'polls:submit_quiz' quiz.id %}" method="post">
+        {% csrf_token %}
         {% for question in quiz.question_set.all %}
-          <p> {{ question.question_text }} </p>
-         {% for choice in question.choice_set.all %}
-      </div>
-
-
-    <div class="choice">
-        <p> {{ choice.choice_text}} </p>
+          <div class="question-wrapper">
+            <h3 class="question-text"> {{ question.question_text }} </h3>
+            <div class="choice-wrapper">
+            {% for choice in question.choice_set.all %}
+                {% if choice in answerset.answers.all %}
+              <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}" checked="checked"/>
+              <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
+                {% else %}
+              <input type="radio" name="{{question.id}}" id="choice.{{ choice.id }}" value="{{ choice.id }}"/>
+              <label for = "choice{{ choice.id }}">{{choice.choice_text}}</label></br>
+              {% endif %}
+            {% endfor %}
+            </div>
+          </div>
         {% endfor %}
-        {% endfor %}
-      </div>
-
-
+        <input class="btn btn-default" type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
 </div>
-{% endcomment %}
 
-</body>
-</html>

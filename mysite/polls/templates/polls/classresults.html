@@ -1,0 +1,5 @@
+  {% if results_list %}
+      {% for result in results_list %}
+      <a href="{% url 'polls:classquizresults' result.id %}">{{result.quiz.title_text}}</a>
+      {% endfor %}
+  {% endif %}
