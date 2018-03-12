@@ -22,3 +22,6 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('accounts/', include('accounts.urls'))
 ]
+
+#handler404 = 'polls.views.handler404'
+#handler500 = 'polls.views.handler500'
