@@ -18,7 +18,8 @@
                  <a class="navbar-brand" href="#">A Better Quiz App</a>
              </div>
              <ul class="nav navbar-nav navbar-right">
-                 <li><a href="#">Home</a></li>
+                 <li><a href="{% url "polls:classquizresultsview" %}">Class Results</a></li>
+                 <li><a href="{% url "polls:index" %}">Home</a></li>
                  <form id="logout-btn" class="navbar-form form-inline pull-right" action="/accounts/logout/" method="post">
                      {% csrf_token %}
                      <button type="submit" class ="btn">Log Out</button>
