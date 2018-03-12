@@ -60,6 +60,7 @@ class AnswerSetView(generic.ListView):
 
 
 class ClassQuizResultsView(generic.ListView):
+    #model = ClassQuizResults 
     template_name = 'polls/classresults.html'
     context_object_name = 'results_list'
 
@@ -69,6 +70,11 @@ class ClassQuizResultsView(generic.ListView):
 
 def classquizresults(request, classquizresults_id):
     results = get_object_or_404(ClassQuizResults, pk=classquizresults_id)
+    #results = ClassQuizResults.objects.get_or_create(pk=classquizresults_id)
+    #get user
+    #current_user = request.user
+
+    #get student object from user object
     quiz = get_object_or_404(Quiz, pk=results.quiz.id)
 
     results.set_average()
@@ -77,6 +83,7 @@ def classquizresults(request, classquizresults_id):
     return render(request, 'polls/classquizresults.html', {
         'quiz': quiz,
         'class_results': results,
+        #'classquizresults_id': results.id,
         })
 
 def show_results(request, answer_set_id):
@@ -176,7 +183,6 @@ def submit_quiz(request, quiz_id):
         # where the 1 is for the CSRF token, reload and send message
         if len(post_dict) < num_questions + 1:
             messages.add_message(request, 30, 'You cannot submit a quiz unless you have answered every question')
-            print(messages)
             for k, v in post_dict.items():
                 if k != 'csrfmiddlewaretoken':
                     for question in quiz.question_set.all():
