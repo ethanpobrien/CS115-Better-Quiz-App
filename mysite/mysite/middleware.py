@@ -3,11 +3,11 @@ from django.http import HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
 import sys
 sys.path.append('/mysite/polls/')
-from polls.models import Choice, Question, Quiz, AnswerSet, Student
 from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.urls import resolve
 from django.urls import reverse
+from polls.models import Choice, Question, Quiz, AnswerSet, Student
 from polls import views
 from polls import urls 
 
@@ -53,6 +53,7 @@ class TestAlreadyTakenMiddleware:
         res = resolve(request.path)
         user = request.user
         if res.url_name == 'detail':
+            #get objects needed for comparisons
             quiz_id = res.kwargs
             quiz = Quiz.objects.get(pk=quiz_id['pk'])
             student = Student.objects.get(user=user)
@@ -61,9 +62,7 @@ class TestAlreadyTakenMiddleware:
                 return None
             else:
                 answer_set = sets[0]
-                print(answer_set)
-                print(answer_set.answers.count())
-                print(quiz.question_set.count())
+                #check if questions answered in answerset
                 if answer_set.answers.count() == quiz.question_set.count():
                     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
 

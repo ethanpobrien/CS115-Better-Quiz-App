@@ -7,12 +7,8 @@ from django.template import RequestContext
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-
 from django.template.response import TemplateResponse
-
 from .models import Choice, Question, Quiz, Student, AnswerSet, ClassQuizResults
-
-
 
 
 class IndexView(generic.ListView):
@@ -58,9 +54,10 @@ class ClassQuizResultsView(generic.ListView):
 
 
 def classquizresults(request, classquizresults_id):
+    #get results model to display
     results = get_object_or_404(ClassQuizResults, pk=classquizresults_id)
     quiz = get_object_or_404(Quiz, pk=results.quiz.id)
-
+    #get relevant stats values
     results.set_average()
     results.get_low()
     results.get_high()
@@ -93,7 +90,6 @@ def edit_info(request):
 def enter_info(request):
     current_user = request.user
     student = Student.create(user=current_user)
-
     if request.method == 'POST':
         post_obj = request.POST
         post_dict = post_obj.dict()
@@ -109,7 +105,6 @@ def enter_info(request):
                         student.first_name = v
                     if k == 'last_name':
                         student.last_name = v
-
         student.save()
         return HttpResponseRedirect(reverse('polls:index'))
 
@@ -120,9 +115,7 @@ def submit_quiz(request, quiz_id):
     current_student = possible_student[0]
     # current_student is what we want
     current_student.save()
-
     quiz = get_object_or_404(Quiz, pk=quiz_id)
-
     # use student and quiz objects to get or create an answer set
     possible_answer_set = AnswerSet.objects.get_or_create(
         student=current_student,
@@ -131,13 +124,11 @@ def submit_quiz(request, quiz_id):
     )
     answer_set = possible_answer_set[0]
     answer_set.save()
-
     #create or add to class quiz results
     poss_results = ClassQuizResults.objects.get_or_create(quiz=quiz)
     class_results = poss_results[0]
     #current_student is what we want
     class_results.save()
-
     if request.method == 'POST':
         post_obj = request.POST
         post_dict = post_obj.dict()
@@ -171,8 +162,6 @@ def submit_quiz(request, quiz_id):
                 'answerset': answer_set,
                 })
             #render html with message flag set
-
-
         for k, v in post_dict.items():
             if k != 'csrfmiddlewaretoken':
                 for question in quiz.question_set.all():
@@ -183,6 +172,4 @@ def submit_quiz(request, quiz_id):
 
                         answer_set.answers.add(answer)
                         answer_set.update_score()
-
-
     return HttpResponseRedirect(reverse('polls:show_results', args=(answer_set.id,)))
