@@ -17,7 +17,10 @@
              <div class="navbar-header">
                  <a class="navbar-brand" href="{% url "polls:index" %}">A Better Quiz App</a>
              </div>
-             <ul class="nav navbar-nav navbar-right">
+               <ul class="nav navbar-nav navbar-right">
+                 {% if request.user.is_superuser %}
+                    <li><a href="{% url "admin:index" %}">Teacher Interface</a></li>
+                 {% endif %}
                  <li><a href="{% url "polls:classquizresultsview" %}">Class Results</a></li>
                  <li><a href="{% url "polls:index" %}">Home</a></li>
                  <form id="logout-btn" class="navbar-form form-inline pull-right" action="/accounts/logout/" method="post">
@@ -37,5 +40,4 @@
             {% endblock %}
         </div>
     </div>
-
 </html>

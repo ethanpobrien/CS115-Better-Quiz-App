@@ -39,21 +39,26 @@ class QuizAdmin(admin.ModelAdmin):
     ]
     inlines = [QuestionInline]
 
-class AnswerSetAdmin(admin.ModelAdmin):
-    fieldsets = []
 
 class CourseAdmin(admin.ModelAdmin):
     fieldsets = []
 
 class StudentAdmin(admin.ModelAdmin):
-    fieldsets = []
+    fieldsets = [
+        ('Name',      {'fields': ['first_name','last_name']}),
+    ]
+    
 
-class TeacherAdmin(admin.ModelAdmin):
-    fieldsets = []
+    list_display = ['last_name','first_name']
+    search_fields = ['last_name']
+
+#class TeacherAdmin(admin.ModelAdmin):
+    #fieldsets = []
+
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Quiz, QuizAdmin)
-admin.site.register(AnswerSet, AnswerSetAdmin)
+#admin.site.register(AnswerSet, AnswerSetAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Student, StudentAdmin)
-admin.site.register(Teacher, TeacherAdmin)
+#admin.site.register(Teacher, TeacherAdmin)
